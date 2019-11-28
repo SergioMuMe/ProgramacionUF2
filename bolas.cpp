@@ -184,7 +184,7 @@ void generarListaBolas(int &maxSpawn, int characterX, int characterY, char(&map)
 }
 
 
-int main()
+int 2()
 {
 	clock_t timer = 0;
 	double deltaTime;

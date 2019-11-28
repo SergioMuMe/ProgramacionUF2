@@ -5,6 +5,8 @@
 
 #include <conio.h>
 
+#include "List.h"
+
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -18,8 +20,6 @@
 #define KEY_d 100
 #define KEY_S 83
 #define KEY_s 115
-
-
 
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds

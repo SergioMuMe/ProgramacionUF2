@@ -25,6 +25,28 @@
 
 const int width = 25, height = 25;
 
+// TODO: Medidas sala
+
+enum tipoSala
+{
+	ENTRADA,
+	SALIDA
+
+};
+
+struct sala
+{
+	
+	int casa;
+	//= tipoSala::ENTRADA;
+
+	casa = 1;
+
+
+
+
+
+};
 
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
@@ -65,13 +87,78 @@ int main()
 
 	unsigned int score; 
 
-	
+	srand(time(NULL));
+
+
 	// INIT GAME
+	
+	Player sPlayer;
+
+	sPlayer.hp = 10;
+	sPlayer.x = height / 2;
+	sPlayer.y = width / 2;
+
+	List <Balls> lBalls;
+	Balls sBalls;
+
+	//Bucle
+	
+	bool comparePlayer = sBalls.x == sPlayer.x && sBalls.y == sPlayer.y;
+	bool compareBalls = sBalls.x == sPlayer.x && sBalls.y == sPlayer.y;
+
+	while (lBalls.GetLength() != maxBalls)
+	{
+
+		
+		do
+		{
+			sBalls.x = rand() % height;
+			sBalls.y = rand() % width;
+
+
+
+
+		}while(comparePlayer)
+
+
+		
+
+		if (lBalls.GetLength() == 0)
+		{
+
+		}
+		else
+		{
+			
+		}
+
+		/*TODO:
+		1-Crear 1 bola
+		1.1.- if GetLength==0{x=rand != player.x && y=rand != player.y}
+		1.2.- else {(x=rand != player.x && y=rand != player.y) && pos != resto de bolas}
+		*/
+
+	}
+
+	sBalls.id;
+	sBalls.x=;
+	sBalls.y=;
+
+
+
+	lBalls.Add(sBalls)
+
+	// end
+
+
+	
+	List <Enemies> enemies;
+
 	
 	/*TODO:
 	Crear Struct Enemies
 	Crear Struct Balls
-	Crear Jugador
+	
 	*/
 
 	

@@ -61,6 +61,12 @@ private:
 	}
 
 public:
+	
+	int GetLength()
+	{
+		return lenght;
+	}
+
 	void Add(T &data)
 	{
 		if (startPtr == nullptr)

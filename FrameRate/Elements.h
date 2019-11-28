@@ -2,6 +2,15 @@
 #define maxBalls 6
 #define initEnemies 3
 
+enum tipoSala
+{
+	ENTRADA,
+	SALIDA,
+	PRINCIPAL,
+	RAMIFICACION
+};
+
+
 struct Balls
 {
 	int id;

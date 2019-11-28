@@ -39,15 +39,8 @@ private:
 
 	void IterationToPosition(int position)
 	{
-		if (position >= lenght)
-		{
-			actualPtr = endPtr;
-		}
-		else if (position <= 0)
-		{
-			actualPtr = startPtr;
-		}
-		else if (position > lenght / 2)
+
+		if (position > lenght / 2)
 		{
 			actualPtr = endPtr;
 
@@ -90,7 +83,7 @@ public:
 		if (position >= lenght)
 		{
 			Add(data);
-			lenght--;
+			return;
 		}
 		else if (position <= 0)
 		{

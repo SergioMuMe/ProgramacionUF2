@@ -6,6 +6,7 @@
 #include <conio.h>
 
 #include "List.h"
+#include "Elements.h"
 
 
 #define KEY_UP 72
@@ -21,12 +22,16 @@
 #define KEY_S 83
 #define KEY_s 115
 
+
+const int width = 25, height = 25;
+
+
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
 	return (ticks / (double)CLOCKS_PER_SEC)*1000.0;
 }
 //...
-const int width = 25, height = 25;
+
 void initMap(char(&map)[width][height], const int w, const int h)
 {
 	for (size_t i = 0; i < w; i++)
@@ -37,6 +42,8 @@ void initMap(char(&map)[width][height], const int w, const int h)
 		}
 	}
 }
+
+
 void drawMap(char(&map)[width][height], const int w, const int h)
 {
 	for (size_t i = 0; i < w; i++)
@@ -48,6 +55,7 @@ void drawMap(char(&map)[width][height], const int w, const int h)
 		std::cout << std::endl;
 	}
 }
+
 int main()
 {
 	clock_t timer = 0;
@@ -55,10 +63,26 @@ int main()
 	unsigned int frames = 0;
 	double  frameRate = 120;
 
+	unsigned int score; 
+
+	
+	// INIT GAME
+	
+	/*TODO:
+	Crear Struct Enemies
+	Crear Struct Balls
+	Crear Jugador
+	*/
+
+	
 	char map[width][height];
 	initMap(map, width, height);
 	int characterX = height / 2;
 	int characterY = width / 2;
+
+	
+
+	// GAME LOOP
 
 	clock_t time = 0;
 	while (true) {
@@ -107,7 +131,19 @@ int main()
 		}
 		map[characterX][characterY] = 'O';
 		system("cls");
-		drawMap(map, width, height);
+		
+		//antes de drawMap()
+		/* TODO
+		Todos los enemigos -1hp.
+		Si posición enemigo == player {destruye enemigo, player -1hp}
+		Si hp enemigo == 0 {destruye enemigo}
+		Si posición jugador == bola (destruye bola, score ++}
+		*/
+
+
+		//
+		
+		drawMap(map, width, height); //TODO: Imprimir puntuación actual de jugador
 
 		std::chrono::high_resolution_clock::time_point endFrame = std::chrono::high_resolution_clock::now();
 
@@ -115,14 +151,20 @@ int main()
 		timer += deltaTime;
 		time += deltaTime;
 		frames++;
+		//TODO: Si frame es PAR {mover enemigo}
 		std::cout << "Delta Time: " << deltaTime / 1000.0f << std::endl;
 		std::cout << time / 1000.0f << std::endl;
+		
+		
+		
+		
 		//if you really want FPS
 		if (timer >= 1000.0) { //every second
 			std::cout << "Frames:" << frames << std::endl;
 			timer = 0.0f;
 			frames = 0;
 
+			
 
 		}
 		/*FrameRate Limit*/

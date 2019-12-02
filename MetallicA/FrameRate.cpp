@@ -53,19 +53,18 @@ GameVar SetGameVar(int choice)
 {
 	// Creamos struct GameVar para retornar como parametro en la funcion InitMap.
 	GameVar sValues;
-<<<<<<< HEAD
 
 	/*
 	Switch pensado en escalabilidad.
-	- Cada dificultad define un n�mero de variables de dificultad.
+	- Cada dificultad define un número de variables de dificultad.
 	- Estas variables multiplican el valor base de la dificultad del juego, obteniendo nuevos valores.
-	- Con esta estructura de c�digo podemos hacer un modelo escalable de dificultad, 
-	permitiendo a�adir nuevos cases, a�adir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
+	- Con esta estructura de código podemos hacer un modelo escalable de dificultad, 
+	permitiendo añadir nuevos cases, a�adir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
 	*/
-=======
+
 	float modEnemy = 0;
 	float modRooms = 0;
->>>>>>> 7b893078514d9b1a39db415c1b6093bb40d25756
+
 
 	switch (choice) 
 	{		

@@ -51,7 +51,16 @@ void drawMap(char(&map)[width][height], const int w, const int h)
 
 GameVar SetGameVar(int choice)
 {
+	// Creamos struct GameVar para retornar como parametro en la funcion InitMap.
 	GameVar sValues;
+
+	/*
+	Switch pensado en escalabilidad.
+	- Cada dificultad define un número de variables de dificultad.
+	- Estas variables multiplican el valor base de la dificultad del juego, obteniendo nuevos valores.
+	- Con esta estructura de código podemos hacer un modelo escalable de dificultad, 
+	permitiendo añadir nuevos cases, añadir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
+	*/
 	switch (choice) 
 	{
 
@@ -68,6 +77,13 @@ void InitMap(GameVar)
 
 void menu() 
 {
+	/*
+	Modificamos la opción propuesta en el enunciado (3 - Salir) por (0 - Salir).
+	Motivos:
+	- En el teclado, alejamos la opcion de salida (0) de las opciones de nivel (1-2). Evitamos favorecer input no deseada por parte del user.
+	- 
+	*/
+
 	std::cout << "MENU" << std::endl;
 	std::cout << "0. Salir" << std::endl;
 	std::cout << "1. Nivel basico" << std::endl;

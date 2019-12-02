@@ -52,11 +52,33 @@ void drawMap(char(&map)[width][height], const int w, const int h)
 GameVar SetGameVar(int choice)
 {
 	GameVar sValues;
-	switch (choice) 
-	{
+	float modEnemy = 0;
+	float modRooms = 0;
 
+	switch (choice) 
+	{		
+		case 1:
+			modEnemy = 1;
+			modRooms = 1;
+			break;
+		case 2:
+			modEnemy = 1.67;
+			modRooms = 1.5;
+			break;
 	}
 
+	sValues.maxRooms = (int)ceil(MAX_ROOMS * modRooms);
+	sValues.minRooms = (int)floor(MIN_ROOMS * modRooms);
+	sValues.maxSize = MAX_SIZE;
+	sValues.minSize = MIN_SIZE;
+	sValues.maxEnemy = (int)ceil(MAX_ENEMY * modEnemy);
+	sValues.minEnemy = (int)floor(MIN_ENEMY * modEnemy);
+	sValues.maxPuppets = (int)ceil(MAX_PUPPETS * modRooms);
+	sValues.minPuppets = (int)floor(MIN_PUPPETS * modRooms);
+	sValues.maxPuppetLength = MAX_PUPPET_LENGTH;
+	sValues.minPuppetLength = MIN_PUPPET_LENGTH;
+	sValues.charHp = CHAR_HP;
+	sValues.enemyHp = ENEMY_HP;
 
 	return sValues;
 }

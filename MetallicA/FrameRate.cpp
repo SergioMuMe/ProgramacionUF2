@@ -96,16 +96,39 @@ GameVar SetGameVar(int choice)
 
 void InitMap(GameVar) 
 {
-	
+	/* TODO:
+	RANDS:
+	PUPPETS = rand min/max
+	Level:
+	-- Rooms
+	-- Puppets
+	-- PuppetsLength
+	*/
+}
+
+void InitRoom()
+{
+	/*
+	RANDS:
+	-- Size
+	-- Enemy
+	--
+	*/
+}
+
+void PrintDataMap()
+{
+	//Rúbrica 2.c
 }
 
 void menu() 
 {
 	/*
-	Modificamos la opci�n propuesta en el enunciado (3 - Salir) por (0 - Salir).
+	Modificamos la opción propuesta en el enunciado (3 - Salir) por (0 - Salir).
 	Motivos:
-	- En el teclado, alejamos la opcion de salida (0) de las opciones de nivel (1-2). Evitamos favorecer input no deseada por parte del user.
-	- 
+	- En el teclado, alejamos la opcion de salida (0) de las opciones de nivel (1-2). 
+	Evitamos favorecer input no deseada por parte del user.
+	- En caso de querer, podemos aprovechar la opción 3 para otro nivel de dificultad. 
 	*/
 
 	std::cout << "MENU" << std::endl;

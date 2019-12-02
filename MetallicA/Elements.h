@@ -1,7 +1,17 @@
 #include "List.h"
 #include <vector>
-#define INIT_ENEMIES 3
+#define MAX_ROOMS 7
+#define MIN_ROOMS 5
+#define MAX_SIZE 30
+#define MIN_SIZE 20
+#define MAX_ENEMY 5
+#define MIN_ENEMY 3
 #define MAX_PUPPETS 3
+#define MIN_PUPPETS 2
+#define MAX_PUPPET_LENGTH 3
+#define MIN_PUPPET_LENGTH 1
+#define CHAR_HP 5
+#define ENEMY_HP 15
 
 
 enum typeRoom
@@ -44,14 +54,15 @@ struct GameVar
 {
 	int maxRooms;
 	int minRooms;
+	int maxSize;
+	int minSize;
 	int maxEnemy;
 	int minEnemy;
 	int	maxPuppets;
 	int minPuppets;
-	int maxPuppetLenght;
-	int minPuppetLenght;
-	int maxSize;
-	int minSize;
+	int maxPuppetLength;
+	int minPuppetLength;
+	
 	int charHp;
 	int enemyHp;
 };

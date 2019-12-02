@@ -53,19 +53,44 @@ GameVar SetGameVar(int choice)
 {
 	// Creamos struct GameVar para retornar como parametro en la funcion InitMap.
 	GameVar sValues;
+<<<<<<< HEAD
 
 	/*
 	Switch pensado en escalabilidad.
-	- Cada dificultad define un número de variables de dificultad.
+	- Cada dificultad define un nï¿½mero de variables de dificultad.
 	- Estas variables multiplican el valor base de la dificultad del juego, obteniendo nuevos valores.
-	- Con esta estructura de código podemos hacer un modelo escalable de dificultad, 
-	permitiendo añadir nuevos cases, añadir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
+	- Con esta estructura de cï¿½digo podemos hacer un modelo escalable de dificultad, 
+	permitiendo aï¿½adir nuevos cases, aï¿½adir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
 	*/
-	switch (choice) 
-	{
+=======
+	float modEnemy = 0;
+	float modRooms = 0;
+>>>>>>> 7b893078514d9b1a39db415c1b6093bb40d25756
 
+	switch (choice) 
+	{		
+		case 1:
+			modEnemy = 1;
+			modRooms = 1;
+			break;
+		case 2:
+			modEnemy = 1.67;
+			modRooms = 1.5;
+			break;
 	}
 
+	sValues.maxRooms = (int)ceil(MAX_ROOMS * modRooms);
+	sValues.minRooms = (int)floor(MIN_ROOMS * modRooms);
+	sValues.maxSize = MAX_SIZE;
+	sValues.minSize = MIN_SIZE;
+	sValues.maxEnemy = (int)ceil(MAX_ENEMY * modEnemy);
+	sValues.minEnemy = (int)floor(MIN_ENEMY * modEnemy);
+	sValues.maxPuppets = (int)ceil(MAX_PUPPETS * modRooms);
+	sValues.minPuppets = (int)floor(MIN_PUPPETS * modRooms);
+	sValues.maxPuppetLength = MAX_PUPPET_LENGTH;
+	sValues.minPuppetLength = MIN_PUPPET_LENGTH;
+	sValues.charHp = CHAR_HP;
+	sValues.enemyHp = ENEMY_HP;
 
 	return sValues;
 }
@@ -78,7 +103,7 @@ void InitMap(GameVar)
 void menu() 
 {
 	/*
-	Modificamos la opción propuesta en el enunciado (3 - Salir) por (0 - Salir).
+	Modificamos la opciï¿½n propuesta en el enunciado (3 - Salir) por (0 - Salir).
 	Motivos:
 	- En el teclado, alejamos la opcion de salida (0) de las opciones de nivel (1-2). Evitamos favorecer input no deseada por parte del user.
 	- 

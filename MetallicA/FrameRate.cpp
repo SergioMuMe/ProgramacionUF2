@@ -2,8 +2,8 @@
 #include <iostream>
 #include <thread>
 #include <array>
-
 #include <conio.h>
+#include "Elements.h"
 
 
 #define KEY_UP 72
@@ -49,9 +49,44 @@ void drawMap(char(&map)[width][height], const int w, const int h)
 	}
 }
 
-void init()
+GameVar SetGameVar(int choice)
 {
+	GameVar sValues;
+	switch (choice) 
+	{
 
+	}
+
+
+	return sValues;
+}
+
+void InitMap(GameVar) 
+{
+	
+}
+
+void menu() 
+{
+	std::cout << "MENU" << std::endl;
+	std::cout << "0. Salir" << std::endl;
+	std::cout << "1. Nivel basico" << std::endl;
+	std::cout << "2. Nivel inferno" << std::endl; 
+}
+
+
+
+bool Init()
+{
+	menu();
+	int choice = 0;
+	std::cin >> choice;
+	if(choice == 0)
+	{
+		//cerrar programa
+		return false;
+	}
+	InitMap(SetGameVar(choice));
 }
 
 void gameLoop() 
@@ -149,7 +184,9 @@ void destroy()
 
 int main()
 {
-	init();
+	if (!Init()) {
+		return 0;
+	}
 	gameLoop();
 	destroy();
 	return 0;

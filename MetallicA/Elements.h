@@ -1,4 +1,5 @@
 #include "List.h"
+#include <vector>
 #define INIT_ENEMIES 3
 #define MAX_PUPPETS 3
 
@@ -25,7 +26,8 @@ struct Room
 	Room* ptrS = nullptr;
 	Room* ptrE = nullptr;
 	Room* ptrO = nullptr;
-	Room* next = nullptr;
+	//char ** room;
+	//std::vector<std::vector<char>> room;
 	typeRoom eRoom;
 	bool aDoors[4];
 	int sizeRoom;
@@ -38,4 +40,19 @@ struct Level
 	int aPuppets[MAX_PUPPETS];
 };
 
+struct GameVar
+{
+	int maxRooms;
+	int minRooms;
+	int maxEnemy;
+	int minEnemy;
+	int	maxPuppets;
+	int minPuppets;
+	int maxPuppetLenght;
+	int minPuppetLenght;
+	int maxSize;
+	int minSize;
+	int charHp;
+	int enemyHp;
+};
 

@@ -29,6 +29,8 @@ struct Character
 	int hp;
 };
 
+//enum CardinalPoints {NORTH=0, SOUTH, WEST, EAST};
+
 struct Room
 {
 	List<Character> liEnemies;
@@ -36,6 +38,7 @@ struct Room
 	Room* ptrS = nullptr;
 	Room* ptrE = nullptr;
 	Room* ptrO = nullptr;
+	//Room* aDoors2[4];
 	//char ** room;
 	//std::vector<std::vector<char>> room;
 	typeRoom eRoom;
@@ -43,11 +46,13 @@ struct Room
 	int sizeRoom;
 };
 
+//aDoors2[CardinalPoints::NORTH]
+
 struct Level
 {
 	List<Room> liRooms;
 	int nRooms;
-	int aPuppets[MAX_PUPPETS];
+	std::vector<int> aPuppets;
 };
 
 struct GameVar

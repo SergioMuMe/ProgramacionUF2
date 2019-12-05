@@ -19,8 +19,6 @@
 #define KEY_S 83
 #define KEY_s 115
 
-
-
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
 	return (ticks / (double)CLOCKS_PER_SEC)*1000.0;
@@ -94,16 +92,21 @@ GameVar SetGameVar(int choice)
 	return sValues;
 }
 
-void InitMap(GameVar) 
+Level InitMap(GameVar var)
 {
-	/* TODO:
-	RANDS:
-	PUPPETS = rand min/max
-	Level:
-	-- Rooms
-	-- Puppets
-	-- PuppetsLength
-	*/
+	Level level;
+	level.aPuppets.reserve (var.maxPuppets);
+	int	puppets = rand() % var.maxPuppets + var.minPuppets;
+	int rooms = rand() % var.maxRooms + var.minRooms;
+
+	for (size_t i = 0; i < puppets; i++)
+	{
+		level.aPuppets.assign (rand() % var.maxPuppetLength + var.minPuppetLength, i);
+		//level.aPuppets[i] = rand() % var.maxPuppetLength + var.minPuppetLength;
+	}
+	//
+
+	return level;
 }
 
 void InitRoom()
@@ -247,6 +250,7 @@ void destroy()
 
 int main()
 {
+	srand(time(NULL));
 	if (!Init()) {
 		return 0;
 	}

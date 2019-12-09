@@ -61,6 +61,10 @@ private:
 	}
 
 public:
+	Node<T>* GetStart()
+	{
+		return startPtr;
+	}
 	void Add(T &data)
 	{
 		if (startPtr == nullptr)

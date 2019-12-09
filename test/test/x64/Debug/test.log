@@ -1,0 +1,5 @@
+﻿  Source.cpp
+l:\git\mp3-programacion\test\test\source.cpp(91): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+l:\git\mp3-programacion\test\test\source.cpp(146): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+l:\git\mp3-programacion\test\test\source.cpp(147): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  test.vcxproj -> L:\Git\MP3-Programacion\test\x64\Debug\test.exe

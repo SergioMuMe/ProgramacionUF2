@@ -134,7 +134,7 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 		{
 
 		case 0:
-			sala.aDoors[1] = level.liRooms.GetBack();
+			sala.aDoors[1] = &level.liRooms.GetItem(level.liRooms.GetLength()-2);
 			break;
 		case 1:
 			sala.aDoors[0];

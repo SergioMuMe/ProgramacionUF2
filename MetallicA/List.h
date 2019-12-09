@@ -61,6 +61,11 @@ private:
 	}
 
 public:
+
+	const int & GetLength()
+	{
+		return length;
+	}
 	
 	Node<T>* GetStart()
 	{
@@ -70,7 +75,7 @@ public:
 	Node<T>* GetBack()
 	{
 		//IterationToPosition(position);
-		return &actualPtr->backPtr;
+		return actualPtr->backPtr;
 	}
 
 	
@@ -165,5 +170,10 @@ public:
 			}
 		}
 		lenght = 0;
+	}
+
+	T & GetItem(const size_t id)
+	{
+		return getNode(id)->data;
 	}
 };

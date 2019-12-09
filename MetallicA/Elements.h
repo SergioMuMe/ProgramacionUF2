@@ -14,13 +14,15 @@
 #define ENEMY_HP 15
 
 
-enum typeRoom
-{
-	START,
-	END,
-	MASTER,
-	PUPPET
-};
+/*
+Start = Sala inicial.
+End = Sala final.
+Master = Golden Path. Salas principales.
+Puppet = Rama dungeon.
+*/
+enum typeRoom {	START, END, MASTER,	PUPPET };
+
+enum cardinalDoor {	NORTH = 1, SOUTH = -1, EAST = 2, WEST = -2 };
 
 struct Character
 {
@@ -29,29 +31,44 @@ struct Character
 	int hp;
 };
 
-//enum CardinalPoints {NORTH=0, SOUTH, WEST, EAST};
-
 struct Room
 {
 	List<Character> liEnemies;
-	Room* ptrN = nullptr;
+	
+	/*Room* ptrN = nullptr;
 	Room* ptrS = nullptr;
 	Room* ptrE = nullptr;
-	Room* ptrO = nullptr;
-	//Room* aDoors2[4];
+	Room* ptrO = nullptr;*/
+	
+	
+	Room* aDoors[4];
+
+	//bool aDoors[4];
+	
+		
 	//char ** room;
 	//std::vector<std::vector<char>> room;
+	
+	
+	//Tipo de sala
 	typeRoom eRoom;
-	bool aDoors[4];
+
+	//Tamaño de la sala, al ser cuadrada guardamos un único valor.
 	int sizeRoom;
 };
 
 //aDoors2[CardinalPoints::NORTH]
 
+
+/*Nivel del juego.*/
 struct Level
 {
+	/*Lista de habitaciones*/
 	List<Room> liRooms;
+	
+	/*Cantidad de habitaciones que hay en el nivel*/
 	int nRooms;
+	
 	std::vector<int> aPuppets;
 };
 

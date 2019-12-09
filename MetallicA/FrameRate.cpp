@@ -4,6 +4,7 @@
 #include <array>
 #include <conio.h>
 #include "Elements.h"
+#include "List.h"
 
 
 #define KEY_UP 72
@@ -18,6 +19,8 @@
 #define KEY_d 100
 #define KEY_S 83
 #define KEY_s 115
+
+int tempRoom;
 
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
@@ -92,25 +95,106 @@ GameVar SetGameVar(int choice)
 	return sValues;
 }
 
-Level InitMap(GameVar var)
-{
-	Level level;
-	level.aPuppets.reserve (var.maxPuppets);
-	int	puppets = rand() % var.maxPuppets + var.minPuppets;
-	int rooms = rand() % var.maxRooms + var.minRooms;
 
-	for (size_t i = 0; i < puppets; i++)
+void InitRoom(Level level, GameVar var, typeRoom type)
+{
+
+	Room sala;
+	sala.eRoom = type;
+	sala.sizeRoom = rand() % var.maxSize + var.minSize;
+
+	level.liRooms.Add(sala);
+
+	switch (type)
 	{
-		level.aPuppets.assign (rand() % var.maxPuppetLength + var.minPuppetLength, i);
-		//level.aPuppets[i] = rand() % var.maxPuppetLength + var.minPuppetLength;
+	case START:
+		int resta;
+
+
+		//METODO 1 para obtener puerta
+		//Esto lo hacemos para evitar un segundo switch. Si tempRoom 1, en siguiente sala, cambiamos signo tempRoom -1.
+		//Este int equivale al enum cardinalDoor. Con el cambio de signo sabemos la puerta de la que venimos.
+		//Marc no le mola, queda muy feo. Roger lo ve optimo. Sergio le gusta por los loles.
+		/*do
+		{
+			tempRoom = (rand() % 5) -2;
+
+		} while (tempRoom == 0);*/
+
+		//METODO 2 para obtener puerta
+		//Solucion de Marc
+		tempRoom = rand() % 4;
+
+		break;
+	case END:
+
+		tempRoom = 0;
+
+		switch (tempRoom)
+		{
+
+		case 0:
+			sala.aDoors[1] = level.liRooms.GetBack();
+			break;
+		case 1:
+			sala.aDoors[0];
+			break;
+		case 2:
+			sala.aDoors[3];
+			break;
+		case 3:
+			sala.aDoors[2];
+			break;
+		}
+
+		break;
+	case MASTER:
+
+		//METODO 1
+		/*tempRoom = -tempRoom;
+
+		sala.aDoors;
+
+		sala.aDoors[2] = level.liRooms.GetBack();
+
+		do
+		{
+			tempRoom = (rand() % 5) - 2;
+
+		} while (tempRoom == 0);*/
+
+
+		//METODO 2
+
+		tempRoom = 0;
+
+		switch (tempRoom)
+		{
+
+		case 0:
+			sala.aDoors[1] = level.liRooms.GetBack;
+			break;
+		case 1:
+			sala.aDoors[0];
+			break;
+		case 2:
+			sala.aDoors[3];
+			break;
+		case 3:
+			sala.aDoors[2];
+			break;
+		}
+
+		break;
+	case PUPPET:
+
+		break;
 	}
-	//
 
-	return level;
-}
 
-void InitRoom()
-{
+
+
+
 	/*
 	RANDS:
 	-- Size
@@ -118,6 +202,45 @@ void InitRoom()
 	--
 	*/
 }
+
+
+//TODO: Buscar y sustituir en todos lados, var=>sValues;
+Level InitMap(GameVar var)
+{
+	Level level;
+	level.aPuppets.reserve (var.maxPuppets);
+	int	puppets = rand() % var.maxPuppets + var.minPuppets;
+	level.nRooms = rand() % var.maxRooms + var.minRooms;
+
+	for (size_t i = 0; i < puppets; i++)
+	{
+		level.aPuppets.assign (rand() % var.maxPuppetLength + var.minPuppetLength, i);
+		//TODO PREGUNTAR: Preguntar Jose PQ NO FUNKAAAA!!!!
+		//level.aPuppets[i] = rand() % var.maxPuppetLength + var.minPuppetLength;
+	}
+ 
+	
+	InitRoom(level, var, typeRoom::START);
+	
+	for (size_t i = 0; i < level.nRooms; i++)
+	{
+
+		//No es la primera o última sala
+		if (level.liRooms.GetStart == nullptr && i != level.nRooms-1)
+		{
+			InitRoom(level, var, typeRoom::MASTER);	
+		}
+		
+	}
+
+	InitRoom(level, var, typeRoom::END);
+
+	return level;
+}
+
+
+
+
 
 void PrintDataMap()
 {
@@ -135,9 +258,12 @@ void menu()
 	*/
 
 	std::cout << "MENU" << std::endl;
-	std::cout << "0. Salir" << std::endl;
+	std::cout << "0:---------------:0" << std::endl;
 	std::cout << "1. Nivel basico" << std::endl;
 	std::cout << "2. Nivel inferno" << std::endl; 
+	std::cout << "0:---------------:0" << std::endl;
+	std::cout << "\n\n" << std::endl;
+	std::cout << "0. Salir" << std::endl;
 }
 
 

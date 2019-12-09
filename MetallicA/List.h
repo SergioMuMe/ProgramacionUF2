@@ -61,10 +61,26 @@ private:
 	}
 
 public:
+	
 	Node<T>* GetStart()
 	{
 		return startPtr;
 	}
+
+	Node<T>* GetBack()
+	{
+		//IterationToPosition(position);
+		return &actualPtr->backPtr;
+	}
+
+	
+	void SetDataDoors(int tempRoom)
+	{
+		
+
+	}
+
+
 	void Add(T &data)
 	{
 		if (startPtr == nullptr)

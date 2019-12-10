@@ -101,7 +101,7 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 
 	Room sala;
 	sala.eRoom = type;
-	sala.sizeRoom = rand() % var.maxSize + var.minSize;
+	sala.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
 	int backRoom;
 
 	level.liRooms.Add(sala);
@@ -126,7 +126,7 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 			backRoom = tempRoom - 1;
 		}
 
-		sala.aDoors[backRoom] = level.liRooms.GetBack;
+		sala.aDoors[backRoom] = &level.liRooms.GetBack()->data;
 	case MASTER:
 
 		tempRoom = 0;
@@ -140,7 +140,12 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 			backRoom = tempRoom - 1;
 		}
 
-		sala.aDoors[backRoom] = level.liRooms.GetBack;
+		sala.aDoors[backRoom] = &level.liRooms.GetBack()->data;
+
+		do
+		{
+			tempRoom = rand() % 4;
+		} while (tempRoom == backRoom);
 
 	case PUPPET:
 
@@ -182,7 +187,7 @@ Level InitMap(GameVar var)
 	{
 
 		//No es la primera o última sala
-		if (level.liRooms.GetStart == nullptr && i != level.nRooms-1)
+		if (level.liRooms.GetStart() == nullptr && i != level.nRooms-1)
 		{
 			InitRoom(level, var, typeRoom::MASTER);	
 		}
@@ -330,7 +335,7 @@ void destroy()
 
 }
 
-int main()
+int main2()
 {
 	srand(time(NULL));
 	if (!Init()) {

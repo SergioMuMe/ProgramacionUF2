@@ -1,5 +1,6 @@
-#include "List.h"
 #include <vector>
+#include "List.h"
+
 #define MAX_ROOMS 7
 #define MIN_ROOMS 5
 #define MAX_SIZE 30
@@ -47,7 +48,8 @@ struct Room
 	
 		
 	//char ** room;
-	//std::vector<std::vector<char>> room;
+
+	std::vector<std::vector<char>> roomMap;
 	
 	
 	//Tipo de sala

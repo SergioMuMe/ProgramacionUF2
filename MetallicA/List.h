@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 
 template <class T>
 struct List
@@ -15,7 +16,7 @@ private:
 	Node<T>* startPtr = nullptr;
 	Node<T>* endPtr = nullptr;
 	Node<T>* actualPtr = nullptr;
-	int lenght = 0;
+	int length = 0;
 
 	void InsterNode(T &data)
 	{
@@ -40,11 +41,11 @@ private:
 	void IterationToPosition(int position)
 	{
 
-		if (position > lenght / 2)
+		if (position > length / 2)
 		{
 			actualPtr = endPtr;
 
-			for (int i = 0; i < (lenght - position); i++)
+			for (int i = 0; i < (length - position); i++)
 			{
 				actualPtr = actualPtr->backPtr;
 			}
@@ -62,7 +63,7 @@ private:
 
 public:
 
-	const int & GetLength()
+	int GetLength()
 	{
 		return length;
 	}
@@ -79,10 +80,22 @@ public:
 	}
 
 	
-	void SetDataDoors(int tempRoom)
-	{
+	std::vector<T> &GiveAllData() {
+		//std::array<T, length> results;
 		
+		std::vector<T> results;
+		results.resize(length);
 
+		actualPtr = startPtr;
+
+		for (int i = 0; i < length; i++)
+		{
+			results[i] = actualPtr->data;
+
+			actualPtr = actualPtr->nextPtr;
+		}
+
+		return results;
 	}
 
 
@@ -100,12 +113,12 @@ public:
 			actualPtr->backPtr = endPtr;
 			endPtr = actualPtr;
 		}
-		lenght++;
+		length++;
 	}
 
 	void Add(T &data, int position)
 	{
-		if (position >= lenght)
+		if (position >= length)
 		{
 			Add(data);
 			return;
@@ -122,13 +135,13 @@ public:
 			IterationToPosition(position);
 			InsterNode(data);
 		}
-		lenght++;
+		length++;
 	}
 
 	void Remove(int position)
 	{
 
-		if (position >= lenght)
+		if (position >= length)
 		{
 			actualPtr = endPtr;
 			endPtr = endPtr->backPtr;
@@ -147,7 +160,7 @@ public:
 			IterationToPosition(position);
 			DeleteNode();
 		}
-		lenght--;
+		length--;
 	}
 
 	void Clear()
@@ -169,11 +182,13 @@ public:
 				startPtr = nullptr;
 			}
 		}
-		lenght = 0;
+		length = 0;
 	}
 
 	T & GetItem(const size_t id)
 	{
-		return getNode(id)->data;
+		IterationToPosition(id);
+
+		return actualPtr->data;
 	}
 };

@@ -111,61 +111,23 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 	case START:
 		int resta;
 
-
-		//METODO 1 para obtener puerta
-		//Esto lo hacemos para evitar un segundo switch. Si tempRoom 1, en siguiente sala, cambiamos signo tempRoom -1.
-		//Este int equivale al enum cardinalDoor. Con el cambio de signo sabemos la puerta de la que venimos.
-		//Marc no le mola, queda muy feo. Roger lo ve optimo. Sergio le gusta por los loles.
-		/*do
-		{
-			tempRoom = (rand() % 5) -2;
-
-		} while (tempRoom == 0);*/
-
-		//METODO 2 para obtener puerta
-		//Solucion de Marc
 		tempRoom = rand() % 4;
 
-		break;
 	case END:
 
 		tempRoom = 0;
 
-		switch (tempRoom)
+		if (tempRoom % 2 == 0)
 		{
-
-		case 0:
-			sala.aDoors[1] = &level.liRooms.GetItem(level.liRooms.GetLength()-2);
-			break;
-		case 1:
-			sala.aDoors[0];
-			break;
-		case 2:
-			sala.aDoors[3];
-			break;
-		case 3:
-			sala.aDoors[2];
-			break;
+			backRoom = tempRoom + 1;
+		}
+		else
+		{
+			backRoom = tempRoom - 1;
 		}
 
-		break;
+		sala.aDoors[backRoom] = level.liRooms.GetBack;
 	case MASTER:
-
-		//METODO 1
-		/*tempRoom = -tempRoom;
-
-		sala.aDoors;
-
-		sala.aDoors[2] = level.liRooms.GetBack();
-
-		do
-		{
-			tempRoom = (rand() % 5) - 2;
-
-		} while (tempRoom == 0);*/
-
-
-		//METODO 2
 
 		tempRoom = 0;
 
@@ -180,25 +142,6 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 
 		sala.aDoors[backRoom] = level.liRooms.GetBack;
 
-
-		switch (tempRoom)
-		{
-
-		case 0:
-			sala.aDoors[1] = level.liRooms.GetBack;
-			break;
-		case 1:
-			sala.aDoors[0];
-			break;
-		case 2:
-			sala.aDoors[3];
-			break;
-		case 3:
-			sala.aDoors[2];
-			break;
-		}
-
-		break;
 	case PUPPET:
 
 		break;

@@ -102,6 +102,7 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 	Room sala;
 	sala.eRoom = type;
 	sala.sizeRoom = rand() % var.maxSize + var.minSize;
+	int backRoom;
 
 	level.liRooms.Add(sala);
 
@@ -167,6 +168,18 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 		//METODO 2
 
 		tempRoom = 0;
+
+		if (tempRoom % 2 == 0)
+		{
+			backRoom = tempRoom + 1;
+		}
+		else
+		{
+			backRoom = tempRoom - 1;
+		}
+
+		sala.aDoors[backRoom] = level.liRooms.GetBack;
+
 
 		switch (tempRoom)
 		{

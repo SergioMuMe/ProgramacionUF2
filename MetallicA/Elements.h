@@ -22,7 +22,7 @@ Puppet = Rama dungeon.
 */
 enum typeRoom {	START, END, MASTER,	PUPPET };
 
-enum cardinalDoor {	NORTH = 1, SOUTH = -1, EAST = 2, WEST = -2 };
+enum cardinalDoor {	NORTH, SOUTH, EAST, WEST };
 
 struct Character
 {

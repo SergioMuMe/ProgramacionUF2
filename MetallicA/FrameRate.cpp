@@ -217,43 +217,6 @@ Level InitMap(GameVar var)
 		
 	}	
 
-	for (size_t i = 0; i < level.aPuppets.size(); i++)
-	{
-		int closedDoors = 0;
-		int masterIndex;
-
-		do
-		{
-			masterIndex = (rand() % (level.nRooms - 1)) + 1;
-
-			for (size_t i = 0; i < 4; i++)
-			{
-				int linkDoor;
-
-				if (level.liRooms.GetItem(masterIndex).aDoors[i] == nullptr)
-				{
-					do
-					{
-						linkDoor = rand() % 4;
-					} while (level.liRooms.GetItem(masterIndex).aDoors[linkDoor] != nullptr);
-					i = 4;//break
-				}
-				else
-				{
-					closedDoors++;
-				}
-			}
-		} while (closedDoors >= 4);
-
-		Room masterRoom = level.liRooms.GetItem(masterIndex);
-		
-
-		for (size_t j = 0; j < level.aPuppets[i]; j++)
-		{
-			InitRoom(level, var, typeRoom::PUPPET);
-		}
-	}
-
 	return level;
 }
 

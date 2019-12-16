@@ -37,6 +37,17 @@ struct Room
 {
 	//Lista de enemigos de la sala.
 	List<Character> liEnemies;
+<<<<<<< HEAD
+=======
+	
+	/*Room* ptrN = nullptr;
+	Room* ptrS = nullptr;
+	Room* ptrE = nullptr;
+	Room* ptrO = nullptr;*/
+	
+	
+	Room* aDoors[4] = { nullptr,nullptr,nullptr,nullptr };
+>>>>>>> 28a518ebb04d26d94bdebd3408cad76fa0d6bb50
 
 	//Punteros a las salas colindantes (navegación de Personaje).
 	Room* aDoors[4];

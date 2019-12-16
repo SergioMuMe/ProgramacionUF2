@@ -167,14 +167,8 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 		break;
 
 	case PUPPET:
-
 		break;
 	}
-
-
-
-
-
 	/*
 	RANDS:
 	-- Size

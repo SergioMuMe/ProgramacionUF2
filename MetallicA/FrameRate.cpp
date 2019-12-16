@@ -323,39 +323,39 @@ void gameLoop()
 
 		std::chrono::high_resolution_clock::time_point beginFrame = std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		int key = 0;
+		int c = 0;
 
 		map[characterX][characterY] = '_';
 		if (_kbhit()) {
-			switch ((key = _getch())) {
+			switch ((c = _getch())) {
 
 			case KEY_UP:
 
 				std::cout << std::endl << "Up" << std::endl;//key up
-				characterX--; //player.x=PlayerMovement(player.x, sala, key, player);
+				characterX--;
 				break;
 
 			case KEY_DOWN:
-				characterX++; //player.x=PlayerMovement(player.x, sala, key, player);
+				characterX++;
 				std::cout << std::endl << "Down" << std::endl; // key down
 
 				break;
 
 			case KEY_LEFT:
-				characterY--; //player.y=PlayerMovement(player.y, sala, key, player);
+				characterY--;
 				std::cout << std::endl << "Left" << std::endl; // key left
 
 				break;
 
 			case KEY_RIGHT:
-				characterY++; //player.y=PlayerMovement(player.y, sala, key, player);
+				characterY++;
 				std::cout << std::endl << "Right" << std::endl; // key right
 
 				break;
 
 			default:
 
-				std::cout << std::endl << key << "null" << std::endl; // not arrow
+				std::cout << std::endl << c << "null" << std::endl; // not arrow
 
 				break;
 

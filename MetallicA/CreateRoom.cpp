@@ -6,7 +6,7 @@
 #include "Elements.h"
 #include "List.h"
 
-void PrintRoom(Room sala, int size ) {
+void SetTilesRoom(Room &sala, int size ) {
 	sala.roomMap.resize(size);
 
 	for (int i = 0; i < size; i++)
@@ -16,26 +16,65 @@ void PrintRoom(Room sala, int size ) {
 
 }
 
-void PrintDoor(Room sala, int frontDoor, int backDoor, int size) {
+void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size) {
 	
+	size--;
+
 	switch (frontDoor)
 	{
 	case cardinalDoor::NORTH:
-		sala.roomMap[size / 2][0] = '-';
+		sala.roomMap[0][size/2] = '-';
 		break;
 	case cardinalDoor::SOUTH:
-		sala.roomMap[size / 2][size] = '-';
+		sala.roomMap[size][size / 2] = '-';
 		break;
 	case cardinalDoor::EAST:
-		sala.roomMap[size][size / 2] = '|';
+		sala.roomMap[size/2][size] = '|';
 		break;
 	case cardinalDoor::WEST:
-		sala.roomMap[0][size / 2] = '|';
+		sala.roomMap[size / 2][0] = '|';
+		break;
+	}
+
+	switch (backDoor)
+	{
+	case cardinalDoor::NORTH:
+		sala.roomMap[0][size / 2] = '-';
+		break;
+	case cardinalDoor::SOUTH:
+		sala.roomMap[size][size / 2] = '-';
+		break;
+	case cardinalDoor::EAST:
+		sala.roomMap[size / 2][size] = '|';
+		break;
+	case cardinalDoor::WEST:
+		sala.roomMap[size / 2][0] = '|';
 		break;
 	}
 }
 
-void CreateEnemies(Room sala, GameVar var, int size) {
+void SetTilesDoor(Room &sala, int frontDoor, int size) {
+
+	size--;
+
+	switch (frontDoor)
+	{
+	case cardinalDoor::NORTH:
+		sala.roomMap[0][size / 2] = '-';
+		break;
+	case cardinalDoor::SOUTH:
+		sala.roomMap[size][size / 2] = '-';
+		break;
+	case cardinalDoor::EAST:
+		sala.roomMap[size / 2][size] = '|';
+		break;
+	case cardinalDoor::WEST:
+		sala.roomMap[size / 2][0] = '|';
+		break;
+	}
+}
+
+void CreateEnemies(Room &sala, GameVar var, int size) {
 	int enemiesNum;
 	enemiesNum = var.minEnemy + (rand() % (var.maxEnemy - var.minEnemy + 1));
 
@@ -45,8 +84,8 @@ void CreateEnemies(Room sala, GameVar var, int size) {
 
 		do
 		{
-			enemy.x = rand() % (size + 1);
-			enemy.y = rand() % (size + 1);
+			enemy.x = rand() % (size);
+			enemy.y = rand() % (size);
 		} while (sqrt(pow(enemy.x-(size/2),2) + pow(enemy.y-(size/2),2)) < size/4 );
 
 		sala.liEnemies.Add(enemy);
@@ -54,14 +93,11 @@ void CreateEnemies(Room sala, GameVar var, int size) {
 
 }
 
-void PrintEnemies(Room sala, int size) {
+void SetTilesEnemies(Room &sala, int size) {
 
-	std::vector<Character>  charArray = sala.liEnemies.GiveAllData();
-
-	
 	for (int i = 0; i<sala.liEnemies.GetLength(); i++)
 	{
-		sala.roomMap[charArray[i].x][charArray[i].y] = 'o';
+		sala.roomMap[sala.liEnemies.GetItem(i).x][sala.liEnemies.GetItem(i).y] = 'o';
 	}	
 };
 
@@ -110,14 +146,24 @@ GameVar SetGame(int choice)
 	return sValues;
 }
 
-void main() {
-	Room salita;
-	GameVar bar = SetGame(1);
-
-	PrintRoom(salita,10);
-	CreateEnemies(salita, bar, 10);
-	PrintDoor(salita,0,1,10);
-	PrintEnemies(salita,10);
-
-	system("pause");
-}
+//void main() {
+//	Room salita;
+//	GameVar bar = SetGame(1);
+//
+//	PrintRoom(salita,10);
+//	
+//	PrintDoor(salita,2,1,10);
+//	CreateEnemies(salita, bar, 10);
+//	PrintEnemies(salita,10);
+//
+//	for (size_t i = 0; i < 10; i++)
+//	{
+//		for (size_t j = 0; j < 10; j++)
+//		{
+//			std::cout << salita.roomMap[i][j];
+//		}
+//		std::cout << "\n";
+//	}
+//
+//	system("pause");
+//}

@@ -75,7 +75,7 @@ public:
 
 	Node<T>* GetBack()
 	{
-		//IterationToPosition(position);
+		IterationToPosition(length);
 		return actualPtr->backPtr;
 	}
 

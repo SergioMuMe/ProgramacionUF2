@@ -91,3 +91,13 @@ struct GameVar
 	int enemyHp;
 };
 
+void SetTilesRoom(Room &sala, int size);
+
+void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size);
+
+void SetTilesDoor(Room &sala, int frontDoor, int size);
+
+void CreateEnemies(Room &sala, GameVar var, int size);
+
+void SetTilesEnemies(Room &sala, int size);
+

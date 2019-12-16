@@ -20,7 +20,7 @@
 #define KEY_S 83
 #define KEY_s 115
 
-int tempRoom;
+int nextDoor;
 
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
@@ -96,13 +96,13 @@ GameVar SetGameVar(int choice)
 }
 
 
-void InitRoom(Level level, GameVar var, typeRoom type)
+void InitRoom(Level &level, GameVar var, typeRoom type)
 {
 
 	Room sala;
 	sala.eRoom = type;
 	sala.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
-	int backRoom;
+	int backDoor;
 
 	level.liRooms.Add(sala);
 
@@ -111,41 +111,60 @@ void InitRoom(Level level, GameVar var, typeRoom type)
 	case START:
 		int resta;
 
-		tempRoom = rand() % 4;
+		nextDoor = rand() % 4;
+
+		SetTilesRoom(sala, sala.sizeRoom);
+
+		SetTilesDoor(sala, nextDoor, sala.sizeRoom);
+
+		CreateEnemies(sala, var, sala.sizeRoom);
+
+		SetTilesEnemies(sala, sala.sizeRoom);
+
+		break;
 
 	case END:
 
-		tempRoom = 0;
-
-		if (tempRoom % 2 == 0)
+		if (nextDoor % 2 == 0)
 		{
-			backRoom = tempRoom + 1;
+			backDoor = nextDoor + 1;
 		}
 		else
 		{
-			backRoom = tempRoom - 1;
+			backDoor = nextDoor - 1;
 		}
 
-		sala.aDoors[backRoom] = &level.liRooms.GetBack()->data;
+		sala.aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		break;
+
 	case MASTER:
 
-		tempRoom = 0;
-
-		if (tempRoom % 2 == 0)
+		if (nextDoor % 2 == 0)
 		{
-			backRoom = tempRoom + 1;
+			backDoor = nextDoor + 1;
 		}
 		else
 		{
-			backRoom = tempRoom - 1;
+			backDoor = nextDoor - 1;
 		}
 
-		sala.aDoors[backRoom] = &level.liRooms.GetBack()->data;
+		sala.aDoors[backDoor] = &level.liRooms.GetBack()->data;
 
 		do
 		{
-			tempRoom = rand() % 4;
-		} while (tempRoom == backRoom);
+			nextDoor = rand() % 4;
+		} while (nextDoor == backDoor);
+
+		SetTilesRoom(sala, sala.sizeRoom);
+
+		SetTilesDoor(sala, nextDoor, backDoor, sala.sizeRoom);
+
+		CreateEnemies(sala, var, sala.sizeRoom);
+
+		SetTilesEnemies(sala, sala.sizeRoom);
+
+		break;
 
 	case PUPPET:
 
@@ -181,20 +200,22 @@ Level InitMap(GameVar var)
 	}
  
 	
-	InitRoom(level, var, typeRoom::START);
+	
 	
 	for (size_t i = 0; i < level.nRooms; i++)
 	{
-
-		//No es la primera o última sala
-		if (level.liRooms.GetStart() == nullptr && i != level.nRooms-1)
+		if (i <= 0)
+		{
+			InitRoom(level, var, typeRoom::START);
+		}else if (i > 0 && i != level.nRooms-1)
 		{
 			InitRoom(level, var, typeRoom::MASTER);	
 		}
+		else {
+			InitRoom(level, var, typeRoom::END);
+		}
 		
-	}
-
-	InitRoom(level, var, typeRoom::END);
+	}	
 
 	return level;
 }
@@ -335,7 +356,7 @@ void destroy()
 
 }
 
-int main2()
+int main()
 {
 	srand(time(NULL));
 	if (!Init()) {

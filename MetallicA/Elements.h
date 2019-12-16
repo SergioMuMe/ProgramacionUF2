@@ -42,7 +42,7 @@ struct Room
 	Room* ptrO = nullptr;*/
 	
 	
-	Room* aDoors[4];
+	Room* aDoors[4] = { nullptr,nullptr,nullptr,nullptr };
 
 	//bool aDoors[4];
 	

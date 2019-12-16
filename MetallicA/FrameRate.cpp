@@ -248,6 +248,17 @@ void menu()
 	std::cout << "0. Salir" << std::endl;
 }
 
+void menu2()
+{
+	//2.C De la rúbrica HACER QUE FUNCIONE
+	std::cout << "MENU" << std::endl;
+	std::cout << "0:---------------:0" << std::endl;
+	std::cout << "1. Mostrar datos" << std::endl;
+	std::cout << "2. Jugar nivel" << std::endl;
+	std::cout << "0:---------------:0" << std::endl;
+	std::cout << "\n\n" << std::endl;
+	std::cout << "0. Salir" << std::endl;
+}
 
 
 bool Init()

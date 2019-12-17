@@ -384,6 +384,11 @@ Level InitMap(GameVar var)
 			backDoor = nextDoor - 1;
 		}
 
+		do
+		{
+			nextDoor = rand() % 4;
+		} while (nextDoor == backDoor);
+
 		SetTilesRoom(level, firstRoom.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, firstRoom.sizeRoom);

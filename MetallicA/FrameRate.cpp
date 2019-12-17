@@ -75,7 +75,7 @@ GameVar SetGameVar(int choice)
 	- Cada dificultad define un número de variables de dificultad.
 	- Estas variables multiplican el valor base de la dificultad del juego, obteniendo nuevos valores.
 	- Con esta estructura de código podemos hacer un modelo escalable de dificultad, 
-	permitiendo añadir nuevos cases, a�adir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
+	permitiendo añadir nuevos cases, añadir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
 	*/
 
 	float modEnemy = 0;
@@ -668,9 +668,13 @@ void gameLoop(Level &level)
 	}
 }
 
-void destroy()
+void seekAndDestroy(Level &level)
 {
-
+	for (size_t i = 0; i < level.liRooms.GetLength(); i++)
+	{
+		level.liRooms.GetItem(i).liEnemies.Clear();
+	}
+	level.liRooms.Clear();
 }
 
 int main()
@@ -682,12 +686,12 @@ int main()
 	//Animation();
 
 	if (!Init(level)) {
-		gameLoop(level);
-		
-		return 0;
+		/*gameLoop(level);
+
+		return 0;*/
 	}
 
 	
-	destroy();
+	seekAndDestroy(level);
 	return 0;
 }

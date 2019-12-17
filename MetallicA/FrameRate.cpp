@@ -662,7 +662,7 @@ int main()
 
 	srand(time(NULL));
 
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "Spanish");
 	Animation();
 
 	if (!Init(level)) {

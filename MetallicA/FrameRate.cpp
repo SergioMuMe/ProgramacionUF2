@@ -8,6 +8,7 @@
 #include <wchar.h> // to include accent marks
 #include <locale.h> // to include accent marks
 
+#include "ASCII_Art.h"
 #include "Elements.h"
 #include "List.h"
 
@@ -660,6 +661,9 @@ int main()
 	Level level;
 
 	srand(time(NULL));
+
+	setlocale(LC_ALL, "");
+	Animation();
 
 	if (!Init(level)) {
 		return 0;

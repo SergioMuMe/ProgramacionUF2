@@ -38,25 +38,18 @@ struct Room
 	//Lista de enemigos de la sala.
 	List<Character> liEnemies;
 	
-	/*Room* ptrN = nullptr;
-	Room* ptrS = nullptr;
-	Room* ptrE = nullptr;
-	Room* ptrO = nullptr;*/
-	
-	
+
+	// Punteros a las salas colindantes (navegación de Personaje).
+	// Room* aDoors[4] = {Norte, Sur, Este, Oeste}
 	Room* aDoors[4] = { nullptr,nullptr,nullptr,nullptr };
 
-
-	//Punteros a las salas colindantes (navegación de Personaje).
-	Room* aDoors[4];
-
-	//Mapa de la sala.
+	// Mapa de la sala.
 	std::vector<std::vector<char>> roomMap;
 	
-	//Tipo de sala.
+	// Tipo de sala.
 	typeRoom eRoom;
 
-	//Tamaño de la sala, al ser cuadrada guardamos un único valor.
+	// Tamaño de la sala, al ser cuadrada guardamos un único valor.
 	int sizeRoom;
 };
 

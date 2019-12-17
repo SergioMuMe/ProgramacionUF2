@@ -195,7 +195,7 @@ Level InitMap(GameVar var)
  
 	
 	
-	
+	// Generamos el Golden Path: START -> N salas MASTER -> END
 	for (size_t i = 0; i < level.nRooms; i++)
 	{
 		if (i <= 0)
@@ -211,6 +211,8 @@ Level InitMap(GameVar var)
 		
 	}	
 
+
+	// Generamos la primera sala de cada una de las ramificaciones. typeRoom::PUPPET
 	for (size_t i = 0; i < level.aPuppets.size(); i++)
 	{
 		int closedDoors = 0;
@@ -219,7 +221,9 @@ Level InitMap(GameVar var)
 
 		do
 		{
+			// Obtenemos una sala MASTER random. Excluimos la END al restar -1 a nRooms. Excluimos la START al sumar +1 al resultado. 
 			masterIndex = (rand() % (level.nRooms - 1)) + 1;
+
 
 			for (size_t i = 0; i < 4; i++)
 			{
@@ -301,7 +305,7 @@ void menu2()
 bool Init()
 {
 	menu();
-	int choice = 0;
+	int choice;
 	std::cin >> choice;
 	if(choice == 0)
 	{

@@ -113,13 +113,13 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 		nextDoor = rand() % 4;
 
-		SetTilesRoom(sala, sala.sizeRoom);
+		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
-		SetTilesDoor(sala, nextDoor, sala.sizeRoom);
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, sala.sizeRoom);
 
-		CreateEnemies(sala, var, sala.sizeRoom);
+		CreateEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), var, sala.sizeRoom);
 
-		SetTilesEnemies(sala, sala.sizeRoom);
+		SetTilesEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
 		break;
 
@@ -134,7 +134,13 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 			backDoor = nextDoor - 1;
 		}
 
-		sala.aDoors[backDoor] = &level.liRooms.GetBack()->data;
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
+
+		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, sala.sizeRoom);
 
 		break;
 
@@ -149,24 +155,48 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 			backDoor = nextDoor - 1;
 		}
 
-		sala.aDoors[backDoor] = &level.liRooms.GetBack()->data;
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
 		do
 		{
 			nextDoor = rand() % 4;
 		} while (nextDoor == backDoor);
 
-		SetTilesRoom(sala, sala.sizeRoom);
+		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
-		SetTilesDoor(sala, nextDoor, backDoor, sala.sizeRoom);
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, backDoor, sala.sizeRoom);
 
-		CreateEnemies(sala, var, sala.sizeRoom);
+		CreateEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), var, sala.sizeRoom);
 
-		SetTilesEnemies(sala, sala.sizeRoom);
+		SetTilesEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
 		break;
 
 	case PUPPET:
+
+		if (nextDoor % 2 == 0)
+		{
+			backDoor = nextDoor + 1;
+		}
+		else
+		{
+			backDoor = nextDoor - 1;
+		}
+
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
+
+		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, backDoor, sala.sizeRoom);
+
+		CreateEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), var, sala.sizeRoom);
+
+		SetTilesEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+
 		break;
 	}
 	/*
@@ -175,6 +205,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 	-- Enemy
 	--
 	*/
+	
 }
 
 
@@ -188,7 +219,7 @@ Level InitMap(GameVar var)
 
 	for (size_t i = 0; i < puppets; i++)
 	{
-		level.aPuppets.assign (rand() % var.maxPuppetLength + var.minPuppetLength, i);
+		level.aPuppets.emplace_back(rand() % var.maxPuppetLength + var.minPuppetLength);
 		//TODO PREGUNTAR: Preguntar Jose PQ NO FUNKAAAA!!!!
 		//level.aPuppets[i] = rand() % var.maxPuppetLength + var.minPuppetLength;
 	}
@@ -213,12 +244,23 @@ Level InitMap(GameVar var)
 
 	for (size_t i = 0; i < level.aPuppets.size(); i++)
 	{
-		int closedDoors = 0;
+		int closedDoors;
 		int masterIndex;
 		int linkDoor;
 
+		Room firstRoom;
+
+		int backDoor;
+
+		firstRoom.eRoom = typeRoom::PUPPET;
+
+		firstRoom.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
+
+		level.liRooms.Add(firstRoom);
+
 		do
 		{
+			closedDoors = 0;
 			masterIndex = (rand() % (level.nRooms - 1)) + 1;
 
 			for (size_t i = 0; i < 4; i++)
@@ -230,6 +272,12 @@ Level InitMap(GameVar var)
 					{
 						linkDoor = rand() % 4;
 					} while (level.liRooms.GetItem(masterIndex).aDoors[linkDoor] != nullptr);
+
+					SetTilesDoor(level.liRooms.GetItem(masterIndex), linkDoor, level.liRooms.GetItem(masterIndex).sizeRoom);
+
+					level.liRooms.GetItem(masterIndex).aDoors[linkDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
+
+					nextDoor = linkDoor;
 					i = 4;//break
 				}
 				else
@@ -244,14 +292,57 @@ Level InitMap(GameVar var)
 		//Crear una primera sala a pelo
 		//Vincularlo a master
 
-		SetTilesRoom(sala, sala.sizeRoom);
 
-		SetTilesDoor(sala, nextDoor, sala.sizeRoom);
 
-		for (size_t j = 0; j < level.aPuppets[i]; j++)
+		if (nextDoor % 2 == 0)
+		{
+			backDoor = nextDoor + 1;
+		}
+		else
+		{
+			backDoor = nextDoor - 1;
+		}
+
+		SetTilesRoom(firstRoom, firstRoom.sizeRoom);
+
+		SetTilesDoor(firstRoom, backDoor, firstRoom.sizeRoom);
+
+		firstRoom.aDoors[backDoor] = &level.liRooms.GetItem(masterIndex);
+
+		
+
+		for (size_t j = 1; j < level.aPuppets[i]; j++)
 		{
 			InitRoom(level, var, typeRoom::PUPPET);
 		}
+
+		Room endRoom;
+
+		if (nextDoor % 2 == 0)
+		{
+			backDoor = nextDoor + 1;
+		}
+		else
+		{
+			backDoor = nextDoor - 1;
+		}
+
+		endRoom.eRoom = typeRoom::PUPPET;
+
+		endRoom.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
+
+		level.liRooms.Add(endRoom);
+
+		endRoom.aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
+
+		SetTilesRoom(endRoom, endRoom.sizeRoom);
+
+		SetTilesDoor(endRoom, backDoor, endRoom.sizeRoom);
+
+		
+
 	}
 
 	return level;

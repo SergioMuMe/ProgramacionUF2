@@ -48,7 +48,7 @@ struct Room
 
 
 	//Punteros a las salas colindantes (navegación de Personaje).
-	Room* aDoors[4];
+	//Room* aDoors[4];
 
 	//Mapa de la sala.
 	std::vector<std::vector<char>> roomMap;

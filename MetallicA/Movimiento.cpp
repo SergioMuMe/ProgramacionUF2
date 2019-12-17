@@ -59,8 +59,66 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 	int max = sala.sizeRoom-1;
 	int min = 0;
 
+	
+
+	//El jugador no se encuentra en un limite, return nueva posición.
+	if (num >= 0 && num <= max)
+	{
+		switch (key)
+		{
+		case KEY_UP:
+			std::cout << std::endl << "Up" << std::endl;
+
+			if (player.x > 0)
+			{
+				return player.x--;
+			}
+			else
+			{
+				std::cout << std::endl << "Chocas contra la pared." << std::endl;
+				return num;
+			}
+
+
+		case KEY_DOWN:
+			std::cout << std::endl << "Down" << std::endl;
+			if (player.x < max)
+			{
+				return player.x++;
+			}
+			else
+			{
+				std::cout << std::endl << "Chocas contra la pared." << std::endl;
+				return num;
+			}
+
+		case KEY_LEFT:
+			std::cout << std::endl << "Left" << std::endl;
+			if (player.y > 0)
+			{
+				return player.y--;
+			}
+			else
+			{
+				std::cout << std::endl << "Chocas contra la pared." << std::endl;
+				return num;
+			}
+
+		case KEY_RIGHT:
+			std::cout << std::endl << "Right" << std::endl;
+			if (player.y < max)
+			{
+				return player.y++;
+			}
+			else
+			{
+				std::cout << std::endl << "Chocas contra la pared." << std::endl;
+				return num;
+			}
+		}
+	}
 	//El jugador ya se encuentra en el limite max, return su misma posición.
-	if (num >= max)
+	if (num >= max )
 	{
 		std::cout << std::endl << "Chocas contra la pared." << std::endl;
 		return num;
@@ -71,28 +129,5 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 	{
 		std::cout << std::endl << "Chocas contra la pared." << std::endl;
 		return num;
-	}
-
-	//El jugador no se encuentra en un limite, return nueva posición.
-	if (num > 0 && num < max)
-	{
-		switch (key)
-		{
-		case KEY_UP:
-			std::cout << std::endl << "Up" << std::endl;
-			return player.y++;
-
-		case KEY_DOWN:
-			std::cout << std::endl << "Down" << std::endl;
-			return player.y--;
-
-		case KEY_LEFT:
-			std::cout << std::endl << "Left" << std::endl;
-			return player.x--;
-
-		case KEY_RIGHT:
-			std::cout << std::endl << "Right" << std::endl;
-			return player.x++;
-		}
 	}
 }

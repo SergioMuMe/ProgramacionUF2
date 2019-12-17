@@ -608,19 +608,19 @@ void gameLoop(Level &level)
 			switch ((key = _getch())) {
 
 			case KEY_UP:
-				player.y=PlayerMovement(player.y, actualRoom, key, player);
+				PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			case KEY_DOWN:
-				player.y=PlayerMovement(player.y, actualRoom, key, player);
+				PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			case KEY_LEFT:
-				player.x=PlayerMovement(player.x, actualRoom, key, player);
+				PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			case KEY_RIGHT:
-				player.x=PlayerMovement(player.x, actualRoom, key, player);
+				PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			default:

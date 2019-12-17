@@ -436,7 +436,7 @@ void menu()
 	Evitamos favorecer input no deseada por parte del user.
 	- En caso de querer, podemos aprovechar la opción 3 para otro nivel de dificultad. 
 	*/
-
+	system("cls");
 	std::cout << "MENU" << std::endl;
 	std::cout << "0:---------------:0" << std::endl;
 	std::cout << "1. Nivel basico" << std::endl;
@@ -448,7 +448,8 @@ void menu()
 
 void menu2()
 {
-	//2.C De la rúbrica HACER QUE FUNCIONE
+	//2.C De la rúbrica
+	system("cls");
 	std::cout << "MENU" << std::endl;
 	std::cout << "0:---------------:0" << std::endl;
 	std::cout << "1. Mostrar datos" << std::endl;
@@ -468,6 +469,7 @@ bool choose2(Level sLevel)
 	{
 	case 1:
 		//Mostrar los datos del nivel
+		system("cls");
 		for (size_t i = 0; i < sLevel.liRooms.GetLength() ; i++)
 		{
 			std::string doorData[4];
@@ -475,8 +477,26 @@ bool choose2(Level sLevel)
 			//Guardamos los datos de la habitación en una variable temporal para no iterar por cada dato
 			Room tempRoom = sLevel.liRooms.GetItem(i);
 			
+			std::string sTypeRoom;
+			switch (tempRoom.eRoom)
+			{
+				case typeRoom::START:
+					sTypeRoom = "Start";
+					break;
+				case typeRoom::END:
+					sTypeRoom = "End";
+					break;
+				case typeRoom::MASTER:
+					sTypeRoom = "Master";
+					break;
+				case typeRoom::PUPPET:
+					sTypeRoom = "Puppet";
+					break;
+			}
+			
 			std::cout << "\n::::--------------------------------:::: " << std::endl;
 			std::cout << " *** DATOS SALA [id." << tempRoom.id << "] *** " << std::endl;
+			std::cout << "Tipo de sala: " << sTypeRoom << std::endl;
 			std::cout << "Tamaño: " << tempRoom.sizeRoom << " casillas." << std::endl;
 			for (size_t j = 0; j < 4; j++)
 			{

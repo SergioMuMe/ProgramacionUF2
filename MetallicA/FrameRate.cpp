@@ -629,6 +629,26 @@ void gameLoop(Level &level)
 			}
 
 		}
+
+		if (actualRoom.roomMap[player.x][player.y] == '#')
+		{
+			if (player.x < actualRoom.sizeRoom/4)
+			{
+
+			}
+			else if (player.x > actualRoom.sizeRoom*3/4)
+			{
+
+			}
+			else if (player.y > actualRoom.sizeRoom*3/4)
+			{
+
+			}
+			else if (player.y < actualRoom.sizeRoom / 4)
+			{
+
+			}
+		}
 		std::cout << "\n\n\n\n";
 		drawMap(actualRoom, player);
 		system("cls");

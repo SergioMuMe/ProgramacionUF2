@@ -96,7 +96,7 @@ struct GameVar
 };
 
 // Pone todas las baldosas del suelo dada una sala y su tama�o.
-void SetTilesRoom(Room &sala, int size);
+void SetTilesRoom(Level &level, int size);
 
 // Pone todas las puertas dada una sala: Cuando la sala tiene m�s de 1 puerta.
 void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size);

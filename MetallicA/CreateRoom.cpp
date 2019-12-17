@@ -6,12 +6,13 @@
 #include "Elements.h"
 #include "List.h"
 
-void SetTilesRoom(Room &sala, int size ) {
-	sala.roomMap.resize(size);
-
+void SetTilesRoom(Level &level, int size ) {
+	level.liRooms.GetItem(level.liRooms.GetLength()).roomMap.resize(size);
+	level.liRooms.GetItem(level.liRooms.GetLength()).id = level.liRooms.GetLength();
+	
 	for (int i = 0; i < size; i++)
 	{
-		sala.roomMap[i].resize(size, '.');
+		level.liRooms.GetItem(level.liRooms.GetLength()).roomMap[i].resize(size, '.');
 	}
 
 }

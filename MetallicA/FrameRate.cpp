@@ -124,7 +124,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 
 		// Set de funciones para crear una sala con enemigos
-		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+		SetTilesRoom(level, sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, sala.sizeRoom);
 
@@ -162,7 +162,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
 		// Set de funciones para crear una sala SIN enemigos
-		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+		SetTilesRoom(level, sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, sala.sizeRoom);
 
@@ -194,7 +194,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 
 		// Set de funciones para crear una sala con enemigos
-		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+		SetTilesRoom(level, sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, backDoor, sala.sizeRoom);
 
@@ -219,7 +219,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
-		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
+		SetTilesRoom(level, sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, backDoor, sala.sizeRoom);
 
@@ -367,11 +367,11 @@ Level InitMap(GameVar var)
 			backDoor = nextDoor - 1;
 		}
 
-		SetTilesRoom(firstRoom, firstRoom.sizeRoom);
+		SetTilesRoom(level, firstRoom.sizeRoom);
 
-		SetTilesDoor(firstRoom, backDoor, firstRoom.sizeRoom);
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, firstRoom.sizeRoom);
 
-		firstRoom.aDoors[backDoor] = &level.liRooms.GetItem(masterIndex);
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetItem(masterIndex);
 
 		/* ------------------------- */
 		/* PUPPET: SALAS INTERMEDIAS */
@@ -405,13 +405,13 @@ Level InitMap(GameVar var)
 
 		level.liRooms.Add(endRoom);
 
-		endRoom.aDoors[backDoor] = &level.liRooms.GetBack()->data;
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
 
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
-		SetTilesRoom(endRoom, endRoom.sizeRoom);
+		SetTilesRoom(level, endRoom.sizeRoom);
 
-		SetTilesDoor(endRoom, backDoor, endRoom.sizeRoom);	
+		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, endRoom.sizeRoom);
 
 	}
 
@@ -468,7 +468,7 @@ bool choose2(Level sLevel)
 	{
 	case 1:
 		//Mostrar los datos del nivel
-		for (size_t i = 0; i < sLevel.liRooms.GetLength() ; i++)
+		for (size_t i = 0; i <= sLevel.liRooms.GetLength() ; i++)
 		{
 			std::string doorData[4];
 			

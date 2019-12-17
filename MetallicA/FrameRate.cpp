@@ -227,16 +227,16 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 		else
 		{
 			backDoor = nextDoor - 1;
-		}
+		}		
+
+		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
+
+		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
 		do
 		{
 			nextDoor = rand() % 4;
 		} while (nextDoor == backDoor);
-
-		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
-
-		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
 		SetTilesRoom(level, sala.sizeRoom);
 
@@ -378,6 +378,11 @@ Level InitMap(GameVar var)
 		{
 			backDoor = nextDoor - 1;
 		}
+
+		do
+		{
+			nextDoor = rand() % 4;
+		} while (nextDoor == backDoor);
 
 		SetTilesRoom(level, firstRoom.sizeRoom);
 

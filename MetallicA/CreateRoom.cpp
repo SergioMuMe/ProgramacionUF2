@@ -131,7 +131,7 @@ GameVar SetGame(int choice)
 	- Cada dificultad define un número de variables de dificultad.
 	- Estas variables multiplican el valor base de la dificultad del juego, obteniendo nuevos valores.
 	- Con esta estructura de código podemos hacer un modelo escalable de dificultad,
-	permitiendo añadir nuevos cases, a�adir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
+	permitiendo añadir nuevos cases, añadir nuevos multiplicadores, cambiar las multiplicaciones por funciones logaritmicas, etc.
 	*/
 
 	float modEnemy = 0;

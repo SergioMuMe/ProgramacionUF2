@@ -44,12 +44,12 @@ struct Room
 	List<Character> liEnemies;
 	
 
-	// Punteros a las salas colindantes (navegaci�n de Personaje).
+	// Punteros a las salas colindantes (navegaciñn de Personaje).
 	// Room* aDoors[4] = {Norte, Sur, Este, Oeste}
 	Room* aDoors[4] = { nullptr,nullptr,nullptr,nullptr };
 
 
-	//Punteros a las salas colindantes (navegaci�n de Personaje).
+	//Punteros a las salas colindantes (navegaciñn de Personaje).
 	//Room* aDoors[4];
 
 	//Mapa de la sala.
@@ -61,9 +61,9 @@ struct Room
 	// Tipo de sala.
 	typeRoom eRoom;
 
-	// Tama�o de la sala, al ser cuadrada guardamos un �nico valor.
+	// Tamaño de la sala, al ser cuadrada guardamos un único valor.
 	int sizeRoom;
-	//TO DO: A�adir a la creacion de salas
+	//TO DO: Añadir a la creacion de salas
 	int id;
 };
 
@@ -75,14 +75,14 @@ struct Level
 	/*Lista de habitaciones*/
 	List<Room> liRooms;
 	
-	// Cantidad de habitaciones que hay en el nivel (START, END, MASTER). No tiene en cuenta el n� de habitaciones en ramificaci�n (PUPPETS)
+	// Cantidad de habitaciones que hay en el nivel (START, END, MASTER). No tiene en cuenta el nñ de habitaciones en ramificaciñn (PUPPETS)
 	int nRooms;
 	
-	// Array dinamico de ramificaciones. La posici�n indica el n� de ramificaci�n. El valor INT indica la cantidad de salas en esa ramificaci�n. Ej: aPuppets[6] = El nivel tendr� 6 ramificaciones.
+	// Array dinamico de ramificaciones. La posiciñn indica el nñ de ramificaciñn. El valor INT indica la cantidad de salas en esa ramificaciñn. Ej: aPuppets[6] = El nivel tendrñ 6 ramificaciones.
 	std::vector<int> aPuppets;
 };
 
-//Struct de parametros para generar el nivel. Estos parametros se ven modificados por constantes. La modificaci�n es dada por el nivel de dificultad.
+//Struct de parametros para generar el nivel. Estos parametros se ven modificados por constantes. La modificaciñn es dada por el nivel de dificultad.
 struct GameVar
 {
 	int maxRooms;
@@ -100,13 +100,13 @@ struct GameVar
 	int enemyHp;
 };
 
-// Pone todas las baldosas del suelo dada una sala y su tama�o.
+// Pone todas las baldosas del suelo dada una sala y su tamaño.
 void SetTilesRoom(Level &level, int size);
 
-// Pone todas las puertas dada una sala: Cuando la sala tiene m�s de 1 puerta.
+// Pone todas las puertas dada una sala: Cuando la sala tiene mñs de 1 puerta.
 void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size);
 
-// Pone todas las puertas dada una sala: Cuando la sala tiene una �nica puerta.
+// Pone todas las puertas dada una sala: Cuando la sala tiene una ñnica puerta.
 void SetTilesDoor(Room &sala, int frontDoor, int size);
 
 

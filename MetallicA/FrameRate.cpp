@@ -683,6 +683,16 @@ bool gameLoop(Level &level)
 			timer = 0.0f;
 			frames = 0;
 
+			for (size_t i = 1; i <= actualRoom->liEnemies.GetLength(); i++)
+			{
+				actualRoom->liEnemies.GetItem(i).hp--;
+
+				if (actualRoom->liEnemies.GetItem(i).hp == 0)
+				{
+					actualRoom->liEnemies.Remove(i);
+				}
+			}
+
 
 		}
 		/*FrameRate Limit*/
@@ -755,7 +765,7 @@ int main()
 	{
 		if (!Init(level)) 
 		{
-			control=gameLoop(level);
+			control = gameLoop(level);
 			SeekAndDestroy(level);
 
 		}

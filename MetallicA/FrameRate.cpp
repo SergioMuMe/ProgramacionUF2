@@ -651,6 +651,14 @@ void gameLoop(Level &level)
 		}
 		std::cout << "\n\n\n\n";
 		drawMap(actualRoom, player);
+
+		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA
+
+
+
+		// PASO 2 - VIAJAR A LA SALA DE ESA PUERTA
+
+
 		system("cls");
 
 		std::chrono::high_resolution_clock::time_point endFrame = std::chrono::high_resolution_clock::now();

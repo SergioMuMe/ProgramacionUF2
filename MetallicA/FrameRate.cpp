@@ -5,12 +5,10 @@
 #include <conio.h>
 #include <string>
 
-#include <wchar.h> // to include accent marks
-#include <locale.h> // to include accent marks
-
 #include "ASCII_Art.h"
 #include "Elements.h"
 #include "List.h"
+#include "FrameRate.h"
 
 /*
 :::GRUPO:::
@@ -47,24 +45,21 @@ double clockToMilliseconds(clock_t ticks) {
 	return (ticks / (double)CLOCKS_PER_SEC)*1000.0;
 }
 //...
-const int width = 25, height = 25;
-void initMap(char(&map)[width][height], const int w, const int h)
+
+void drawMap(Room &actualRoom, Character player)
 {
-	for (size_t i = 0; i < w; i++)
+	for (size_t i = 0; i < actualRoom.sizeRoom; i++)
 	{
-		for (size_t j = 0; j < h; j++)
+		for (size_t j = 0; j < actualRoom.sizeRoom; j++)
 		{
-			map[i][j] = '_';
-		}
-	}
-}
-void drawMap(char(&map)[width][height], const int w, const int h)
-{
-	for (size_t i = 0; i < w; i++)
-	{
-		for (size_t j = 0; j < h; j++)
-		{
-			std::cout << map[i][j];
+			if (i == player.x && j == player.y)
+			{
+				std::cout << PLAYER_CHAR;
+			}
+			else 
+			{ 
+				std::cout << actualRoom.roomMap[i][j];
+			}
 		}
 		std::cout << std::endl;
 	}
@@ -109,7 +104,7 @@ GameVar SetGameVar(int choice)
 	sValues.minPuppets = (int)floor(MIN_PUPPETS * modRooms);
 	sValues.maxPuppetLength = MAX_PUPPET_LENGTH;
 	sValues.minPuppetLength = MIN_PUPPET_LENGTH;
-	sValues.charHp = CHAR_HP;
+	sValues.charHp = PLAYER_HP;
 	sValues.enemyHp = ENEMY_HP;
 
 	return sValues;
@@ -522,7 +517,7 @@ bool choose2(Level sLevel)
 			std::cout << "\n::::--------------------------------:::: " << std::endl;
 			std::cout << " *** DATOS SALA [id." << tempRoom.id << "] *** " << std::endl;
 			std::cout << "Tipo de sala: " << sTypeRoom << std::endl;
-			std::cout << "Tamaño: " << tempRoom.sizeRoom << " casillas." << std::endl;
+			std::cout << "Costado: " << tempRoom.sizeRoom << " casillas." << std::endl;
 			for (size_t j = 0; j < 4; j++)
 			{
 				if (tempRoom.aDoors[j] == nullptr) 
@@ -576,66 +571,62 @@ bool Init(Level &level)
 		
 }
 
-void gameLoop() 
+void gameLoop(Level &level) 
 {
+	/* VARIABLES FRAMERATE */
 	clock_t timer = 0;
 	double deltaTime;
 	unsigned int frames = 0;
-	double  frameRate = 120;
-
-	char map[width][height];
-	initMap(map, width, height);
-	int characterX = height / 2;
-	int characterY = width / 2;
+	double  frameRate = 240;
 
 	clock_t time = 0;
+
+	/* INIT PLAYER */
+	Character player;
+	player.hp = PLAYER_HP;
+
+	Room actualRoom;
+
+	actualRoom = level.liRooms.GetStart()->data;
+
+	player.x = actualRoom.sizeRoom / 2;
+	player.y = actualRoom.sizeRoom / 2;
+
 	while (true) {
 
 
 		std::chrono::high_resolution_clock::time_point beginFrame = std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		int key = 0;
-
-		map[characterX][characterY] = '_';
+		
 		if (_kbhit()) {
 			switch ((key = _getch())) {
 
 			case KEY_UP:
-
-				std::cout << std::endl << "Up" << std::endl;//key up
-				characterX--; //player.x=PlayerMovement(player.x, sala, key, player);
+				player.y=PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			case KEY_DOWN:
-				characterX++; //player.x=PlayerMovement(player.x, sala, key, player);
-				std::cout << std::endl << "Down" << std::endl; // key down
-
+				player.y=PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			case KEY_LEFT:
-				characterY--; //player.y=PlayerMovement(player.y, sala, key, player);
-				std::cout << std::endl << "Left" << std::endl; // key left
-
+				player.x=PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			case KEY_RIGHT:
-				characterY++; //player.y=PlayerMovement(player.y, sala, key, player);
-				std::cout << std::endl << "Right" << std::endl; // key right
-
+				player.x=PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			default:
-
 				std::cout << std::endl << key << "null" << std::endl; // not arrow
-
 				break;
-
 			}
 
 		}
-		map[characterX][characterY] = 'O';
+		std::cout << "\n\n\n\n";
+		drawMap(actualRoom, player);
 		system("cls");
-		drawMap(map, width, height);
 
 		std::chrono::high_resolution_clock::time_point endFrame = std::chrono::high_resolution_clock::now();
 
@@ -675,13 +666,15 @@ int main()
 
 	srand(time(NULL));
 
-	setlocale(LC_ALL, "Spanish");
-	Animation();
+	//Animation();
 
 	if (!Init(level)) {
+		gameLoop(level);
+		
 		return 0;
 	}
-	gameLoop();
+
+	
 	destroy();
 	return 0;
 }

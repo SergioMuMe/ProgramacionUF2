@@ -11,8 +11,13 @@
 #define MIN_PUPPETS 2
 #define MAX_PUPPET_LENGTH 3
 #define MIN_PUPPET_LENGTH 1
-#define CHAR_HP 5
+
+#define PLAYER_HP 20
 #define ENEMY_HP 15
+
+#define PLAYER_CHAR '$'
+#define ENEMY_CHAR '@'
+
 
 
 /*
@@ -110,4 +115,9 @@ void CreateEnemies(Room &sala, GameVar var, int size);
 
 // Pone a los enemigos sobre el mapa.
 void SetTilesEnemies(Room &sala, int size);
+
+
+int PathFinding(Character &enemy, Character player);
+
+int PlayerMovement(int num, Room sala, int key, Character &player);
 

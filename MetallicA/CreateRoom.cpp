@@ -28,32 +28,32 @@ void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size) {
 	switch (frontDoor)
 	{
 	case cardinalDoor::NORTH:
-		sala.roomMap[0][size/2] = '-';
+		sala.roomMap[0][size/2] = '#';
 		break;
 	case cardinalDoor::SOUTH:
-		sala.roomMap[size][size / 2] = '-';
+		sala.roomMap[size][size / 2] = '#';
 		break;
 	case cardinalDoor::EAST:
-		sala.roomMap[size/2][size] = '|';
+		sala.roomMap[size/2][size] = '#';
 		break;
 	case cardinalDoor::WEST:
-		sala.roomMap[size / 2][0] = '|';
+		sala.roomMap[size / 2][0] = '#';
 		break;
 	}
 
 	switch (backDoor)
 	{
 	case cardinalDoor::NORTH:
-		sala.roomMap[0][size / 2] = '-';
+		sala.roomMap[0][size / 2] = '#';
 		break;
 	case cardinalDoor::SOUTH:
-		sala.roomMap[size][size / 2] = '-';
+		sala.roomMap[size][size / 2] = '#';
 		break;
 	case cardinalDoor::EAST:
-		sala.roomMap[size / 2][size] = '|';
+		sala.roomMap[size / 2][size] = '#';
 		break;
 	case cardinalDoor::WEST:
-		sala.roomMap[size / 2][0] = '|';
+		sala.roomMap[size / 2][0] = '#';
 		break;
 	}
 }
@@ -67,16 +67,16 @@ void SetTilesDoor(Room &sala, int frontDoor, int size) {
 	switch (frontDoor)
 	{
 	case cardinalDoor::NORTH:
-		sala.roomMap[0][size / 2] = '-';
+		sala.roomMap[0][size / 2] = '#';
 		break;
 	case cardinalDoor::SOUTH:
-		sala.roomMap[size][size / 2] = '-';
+		sala.roomMap[size][size / 2] = '#';
 		break;
 	case cardinalDoor::EAST:
-		sala.roomMap[size / 2][size] = '|';
+		sala.roomMap[size / 2][size] = '#';
 		break;
 	case cardinalDoor::WEST:
-		sala.roomMap[size / 2][0] = '|';
+		sala.roomMap[size / 2][0] = '#';
 		break;
 	}
 }
@@ -117,7 +117,7 @@ void SetTilesEnemies(Room &sala, int size) {
 	// Iteramos por cada enemigo y lo pintamos sobre la sala.
 	for (int i = 0; i<sala.liEnemies.GetLength(); i++)
 	{
-		sala.roomMap[sala.liEnemies.GetItem(i).x][sala.liEnemies.GetItem(i).y] = 'o';
+		sala.roomMap[sala.liEnemies.GetItem(i).x][sala.liEnemies.GetItem(i).y] = ENEMY_CHAR;
 	}	
 };
 
@@ -160,7 +160,7 @@ GameVar SetGame(int choice)
 	sValues.minPuppets = (int)floor(MIN_PUPPETS * modRooms);
 	sValues.maxPuppetLength = MAX_PUPPET_LENGTH;
 	sValues.minPuppetLength = MIN_PUPPET_LENGTH;
-	sValues.charHp = CHAR_HP;
+	sValues.charHp = PLAYER_HP;
 	sValues.enemyHp = ENEMY_HP;
 
 	return sValues;

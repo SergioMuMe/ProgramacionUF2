@@ -23,7 +23,7 @@ enum GoTo { EjeX, EjeY };
 GoTo eje;
 
 //Pathfinding Enemigo + realiza movimiento
-int PathFinding(Character &enemy, Character player, /*Testing ->*/ bool gameLoop)
+int PathFinding(Character &enemy, Character player)
 {	
 
 	//Si ningún eje coincide con el de player, coge un eje al azar.
@@ -62,12 +62,14 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 	//El jugador ya se encuentra en el limite max, return su misma posición.
 	if (num >= max)
 	{
+		std::cout << std::endl << "Chocas contra la pared." << std::endl;
 		return num;
 	}
 
 	//El jugador ya se encuentra en el limite min, return su misma posición.
 	if (num <= 0)
 	{
+		std::cout << std::endl << "Chocas contra la pared." << std::endl;
 		return num;
 	}
 
@@ -77,17 +79,20 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 		switch (key)
 		{
 		case KEY_UP:
-			return player.x--;
+			std::cout << std::endl << "Up" << std::endl;
+			return player.y++;
 
 		case KEY_DOWN:
-			return player.x++;
-
-		case KEY_LEFT:
+			std::cout << std::endl << "Down" << std::endl;
 			return player.y--;
 
+		case KEY_LEFT:
+			std::cout << std::endl << "Left" << std::endl;
+			return player.x--;
+
 		case KEY_RIGHT:
-			return player.y++;
+			std::cout << std::endl << "Right" << std::endl;
+			return player.x++;
 		}
 	}
-
 }

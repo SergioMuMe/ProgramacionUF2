@@ -298,6 +298,7 @@ void Animation()
 	std::cout << "x                                                               [ ] ___   _:|:_   _[]   /   _   \\ x" << std::endl;
 	std::cout << "x-.--+--.,,-,,..._.--..-._._-__--..,___.--,--'`-,-.._.:._.+-.___[ ]| U | |u U u| [U ]  /   { }   \\x" << std::endl;
 	std::cout << "x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x" << std::endl;
-	std::this_thread::sleep_for(std::chrono::milliseconds(animationSpeed));
+	
+	std::this_thread::sleep_for(std::chrono::milliseconds(animationSpeed*6));
 
 }

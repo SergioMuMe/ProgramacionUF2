@@ -80,19 +80,19 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 		{
 		case KEY_UP:
 			std::cout << std::endl << "Up" << std::endl;
-			return player.y++;
+			return player.x--;
 
 		case KEY_DOWN:
 			std::cout << std::endl << "Down" << std::endl;
-			return player.y--;
+			return player.x++;
 
 		case KEY_LEFT:
 			std::cout << std::endl << "Left" << std::endl;
-			return player.x--;
+			return player.y--;
 
 		case KEY_RIGHT:
 			std::cout << std::endl << "Right" << std::endl;
-			return player.x++;
+			return player.y++;
 		}
 	}
 }

@@ -608,19 +608,23 @@ void gameLoop(Level &level)
 			switch ((key = _getch())) {
 
 			case KEY_UP:
-				player.y=PlayerMovement(player.y, actualRoom, key, player);
+				//player.x--;
+				PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			case KEY_DOWN:
-				player.y=PlayerMovement(player.y, actualRoom, key, player);
+				//player.x++;
+				PlayerMovement(player.x, actualRoom, key, player);
 				break;
 
 			case KEY_LEFT:
-				player.x=PlayerMovement(player.x, actualRoom, key, player);
+				//player.y--;
+				PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			case KEY_RIGHT:
-				player.x=PlayerMovement(player.x, actualRoom, key, player);
+				//player.y++;
+				PlayerMovement(player.y, actualRoom, key, player);
 				break;
 
 			default:
@@ -631,6 +635,14 @@ void gameLoop(Level &level)
 		}
 		std::cout << "\n\n\n\n";
 		drawMap(actualRoom, player);
+
+		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA
+
+
+
+		// PASO 2 - VIAJAR A LA SALA DE ESA PUERTA
+
+
 		system("cls");
 
 		std::chrono::high_resolution_clock::time_point endFrame = std::chrono::high_resolution_clock::now();

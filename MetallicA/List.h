@@ -191,4 +191,11 @@ public:
 
 		return actualPtr->data;
 	}
+
+	T & GetMemoryPosition(const size_t id)
+	{
+		IterationToPosition(id);
+
+		return actualPtr;
+	}
 };

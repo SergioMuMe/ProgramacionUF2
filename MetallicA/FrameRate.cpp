@@ -215,7 +215,10 @@ Level InitMap(GameVar var)
 	// Generamos la primera sala de cada una de las ramificaciones. typeRoom::PUPPET
 	for (size_t i = 0; i < level.aPuppets.size(); i++)
 	{
+		// closedDoors: Puertas ocupadas. Son aquellas que existen y llevan a algún sitio.
 		int closedDoors = 0;
+		
+		//
 		int masterIndex;
 		int linkDoor;
 
@@ -224,12 +227,13 @@ Level InitMap(GameVar var)
 			// Obtenemos una sala MASTER random. Excluimos la END al restar -1 a nRooms. Excluimos la START al sumar +1 al resultado. 
 			masterIndex = (rand() % (level.nRooms - 1)) + 1;
 
-
+			// Iteramos por cada posible puerta: Norte, Sur, Este, Oeste
 			for (size_t i = 0; i < 4; i++)
 			{
-
+				// Revisamos: Si la puerta es igual a NULL, podemos colocar una puerta.
 				if (level.liRooms.GetItem(masterIndex).aDoors[i] == nullptr)
 				{
+					// ALERTA: Generamos la puerta aleatoria? Ya sabemos que la [i] está disponible.
 					do
 					{
 						linkDoor = rand() % 4;
@@ -240,6 +244,13 @@ Level InitMap(GameVar var)
 				{
 					closedDoors++;
 				}
+
+
+				/*
+				
+				*/
+
+
 			}
 		} while (closedDoors >= 4);
 

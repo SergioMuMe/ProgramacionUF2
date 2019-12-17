@@ -576,6 +576,12 @@ bool Init(Level &level)
 		
 }
 
+void InitPlayerPos(Character &player, Room* &actualRoom) 
+{
+	player.x = actualRoom->sizeRoom / 2;
+	player.y = actualRoom->sizeRoom / 2;
+}
+
 void gameLoop(Level &level) 
 {
 	/* VARIABLES FRAMERATE */
@@ -590,12 +596,11 @@ void gameLoop(Level &level)
 	Character player;
 	player.hp = PLAYER_HP;
 
-	Room actualRoom;
+	Room* actualRoom;
 
-	actualRoom = level.liRooms.GetStart()->data;
+	actualRoom = &level.liRooms.GetStart()->data;
 
-	player.x = actualRoom.sizeRoom / 2;
-	player.y = actualRoom.sizeRoom / 2;
+	InitPlayerPos(player, actualRoom);
 
 	while (true) {
 
@@ -608,19 +613,19 @@ void gameLoop(Level &level)
 			switch ((key = _getch())) {
 
 			case KEY_UP:
-				PlayerMovement(player.y, actualRoom, key, player);
+				PlayerMovement(player.y, *actualRoom, key, player);
 				break;
 
 			case KEY_DOWN:
-				PlayerMovement(player.y, actualRoom, key, player);
+				PlayerMovement(player.y, *actualRoom, key, player);
 				break;
 
 			case KEY_LEFT:
-				PlayerMovement(player.x, actualRoom, key, player);
+				PlayerMovement(player.x, *actualRoom, key, player);
 				break;
 
 			case KEY_RIGHT:
-				PlayerMovement(player.x, actualRoom, key, player);
+				PlayerMovement(player.x, *actualRoom, key, player);
 				break;
 
 			default:
@@ -630,27 +635,31 @@ void gameLoop(Level &level)
 
 		}
 
-		if (actualRoom.roomMap[player.x][player.y] == '#')
+		if (actualRoom->roomMap[player.x][player.y] == '#')
 		{
-			if (player.x < actualRoom.sizeRoom/4)
+			if (player.x < actualRoom->sizeRoom/4)
 			{
-
+				actualRoom = actualRoom->aDoors[0];
+				InitPlayerPos(player, actualRoom);
 			}
-			else if (player.x > actualRoom.sizeRoom*3/4)
+			else if (player.x > actualRoom->sizeRoom*3/4)
 			{
-
+				actualRoom = actualRoom->aDoors[1];
+				InitPlayerPos(player, actualRoom);
 			}
-			else if (player.y > actualRoom.sizeRoom*3/4)
+			else if (player.y > actualRoom->sizeRoom*3/4)
 			{
-
+				actualRoom = actualRoom->aDoors[2];
+				InitPlayerPos(player, actualRoom);
 			}
-			else if (player.y < actualRoom.sizeRoom / 4)
+			else if (player.y < actualRoom->sizeRoom / 4)
 			{
-
+				actualRoom = actualRoom->aDoors[3];
+				InitPlayerPos(player, actualRoom);
 			}
 		}
 		std::cout << "\n\n\n\n";
-		drawMap(actualRoom, player);
+		drawMap(*actualRoom, player);
 
 		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA
 
@@ -659,7 +668,7 @@ void gameLoop(Level &level)
 		// PASO 2 - VIAJAR A LA SALA DE ESA PUERTA
 
 
-		system("cls");
+		
 
 		std::chrono::high_resolution_clock::time_point endFrame = std::chrono::high_resolution_clock::now();
 
@@ -685,6 +694,7 @@ void gameLoop(Level &level)
 			frames = 0;
 			timer = 0.0f;
 		}
+		system("cls");
 	}
 }
 

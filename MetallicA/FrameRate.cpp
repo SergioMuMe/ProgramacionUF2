@@ -582,7 +582,7 @@ void InitPlayerPos(Character &player, Room* &actualRoom)
 	player.y = actualRoom->sizeRoom / 2;
 }
 
-bool gameLoop(Level &level) 
+void gameLoop(Level &level, bool &control) 
 {
 	/* VARIABLES FRAMERATE */
 	clock_t timer = 0;
@@ -716,7 +716,8 @@ bool gameLoop(Level &level)
 		std::cout << "SALA ID: " << actualRoom->id << std::endl;
 		std::cout << "SALA TYPE: " << sTypeRoom << std::endl;
 
-		
+		//RUBRICA 3.C
+		// Si la sala final es END, hacemos BREAK del framerate.
 		if (actualRoom->eRoom == typeRoom::END)
 		{
 			break;
@@ -728,7 +729,28 @@ bool gameLoop(Level &level)
 
 	}
 
-	
+
+	// Preguntamos al jugador si quiere volver a jugar.
+	int option;
+
+	do
+	{
+		std::cout << "\n\nFELICIDADES! Has llegado al final de la dungeon." << std::endl;
+		std::cout << "Volver a jugar?" << std::endl;
+		std::cout << "1- SI" << std::endl;
+		std::cout << "2- NO" << std::endl;
+		std::cout << "\nRespuesta: " << std::endl;
+		std::cin >> option;
+	} while (option >=3 || option <= 0);
+
+	if (option == 1)
+	{
+		control = true;
+	}
+	else
+	{
+		control = false;
+	}
 
 }
 
@@ -755,12 +777,15 @@ int main()
 	{
 		if (!Init(level)) 
 		{
-			control=gameLoop(level);
+			gameLoop(level, control);
 			SeekAndDestroy(level);
 
 		}
 	} while (control);
 
+	std::cout << "Gracias por jugar!" << std::endl;
+	system("pause");
+	system("cls");
 	
 	
 	return 0;

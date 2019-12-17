@@ -4,9 +4,20 @@
 #include <array>
 #include <conio.h>
 #include <string>
+
+#include <wchar.h> // to include accent marks
+#include <locale.h> // to include accent marks
+
 #include "Elements.h"
 #include "List.h"
 
+/*
+:::GRUPO:::
+
+- MARC CAYMEL
+- ROGER BUJAN
+- SERGIO MURILLO
+*/
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -22,6 +33,13 @@
 #define KEY_s 115
 
 int nextDoor;
+
+void IntroContinue() 
+{
+	std::cout << "\nIntro para continuar." << std::endl;
+	std::cin.ignore();
+	std::cin.get();
+}
 
 double clockToMilliseconds(clock_t ticks) {
 	// units/(units/time) => time (seconds) * 1000 = milliseconds
@@ -229,13 +247,6 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 		break;
 	}
-	/*
-	RANDS:
-	-- Size
-	-- Enemy
-	--
-	*/
-	
 }
 
 
@@ -497,7 +508,7 @@ bool choose2(Level sLevel)
 
 		}
 		std::cout << "\n\n\n";
-		system("pause");
+		IntroContinue();
 		return false;
 	case 2:
 		//Jugar el nivel(seguir)
@@ -629,6 +640,7 @@ int main()
 	Level level;
 
 	srand(time(NULL));
+
 	if (!Init(level)) {
 		return 0;
 	}

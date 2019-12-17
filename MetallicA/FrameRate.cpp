@@ -582,7 +582,7 @@ void InitPlayerPos(Character &player, Room* &actualRoom)
 	player.y = actualRoom->sizeRoom / 2;
 }
 
-void gameLoop(Level &level) 
+bool gameLoop(Level &level) 
 {
 	/* VARIABLES FRAMERATE */
 	clock_t timer = 0;
@@ -658,7 +658,7 @@ void gameLoop(Level &level)
 				InitPlayerPos(player, actualRoom);
 			}
 		}
-		std::cout << "\n\n\n\n";
+		std::cout << "\n\n\n";
 		drawMap(*actualRoom, player);
 
 		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA
@@ -666,7 +666,6 @@ void gameLoop(Level &level)
 
 
 		// PASO 2 - VIAJAR A LA SALA DE ESA PUERTA
-
 
 		
 
@@ -694,11 +693,46 @@ void gameLoop(Level &level)
 			frames = 0;
 			timer = 0.0f;
 		}
-		system("cls");
+
+		std::string sTypeRoom;
+		switch (actualRoom->eRoom)
+		{
+		case typeRoom::START:
+			sTypeRoom = "Start";
+			break;
+		case typeRoom::END:
+			sTypeRoom = "End";
+			break;
+		case typeRoom::MASTER:
+			sTypeRoom = "Master";
+			break;
+		case typeRoom::PUPPET:
+			sTypeRoom = "Puppet";
+			break;
+		}
+
+		std::cout << "\n\n";
+
+		std::cout << "SALA ID: " << actualRoom->id << std::endl;
+		std::cout << "SALA TYPE: " << sTypeRoom << std::endl;
+
+		
+		if (actualRoom->eRoom == typeRoom::END)
+		{
+			break;
+		}
+		else
+		{
+			system("cls");
+		}
+
 	}
+
+	
+
 }
 
-void seekAndDestroy(Level &level)
+void SeekAndDestroy(Level &level)
 {
 	for (size_t i = 0; i < level.liRooms.GetLength(); i++)
 	{
@@ -715,13 +749,19 @@ int main()
 
 	//Animation();
 
-	if (!Init(level)) {
-		/*gameLoop(level);
+	bool control = true;
 
-		return 0;*/
-	}
+	do
+	{
+		if (!Init(level)) 
+		{
+			control=gameLoop(level);
+			SeekAndDestroy(level);
+
+		}
+	} while (control);
 
 	
-	seekAndDestroy(level);
+	
 	return 0;
 }

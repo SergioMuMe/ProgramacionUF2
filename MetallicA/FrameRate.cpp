@@ -584,7 +584,7 @@ void InitPlayerPos(Character &player, Room* &actualRoom)
 	player.y = actualRoom->sizeRoom / 2;
 }
 
-void GameLoop(Level &level) 
+void GameLoop(Level &level, bool &control) 
 {
 	/* VARIABLES FRAMERATE */
 	clock_t timer = 0;
@@ -660,7 +660,7 @@ void GameLoop(Level &level)
 				InitPlayerPos(player, actualRoom);
 			}
 		}
-		std::cout << "\n\n\n\n";
+		std::cout << "\n\n\n";
 		drawMap(*actualRoom, player);
 
 		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA
@@ -668,7 +668,6 @@ void GameLoop(Level &level)
 
 
 		// PASO 2 - VIAJAR A LA SALA DE ESA PUERTA
-
 
 		
 
@@ -686,6 +685,16 @@ void GameLoop(Level &level)
 			timer = 0.0f;
 			frames = 0;
 
+			for (size_t i = 1; i <= actualRoom->liEnemies.GetLength(); i++)
+			{
+				actualRoom->liEnemies.GetItem(i).hp--;
+
+				if (actualRoom->liEnemies.GetItem(i).hp == 0)
+				{
+					actualRoom->liEnemies.Remove(i);
+				}
+			}
+
 
 		}
 		/*FrameRate Limit*/
@@ -696,8 +705,65 @@ void GameLoop(Level &level)
 			frames = 0;
 			timer = 0.0f;
 		}
-		system("cls");
+
+		std::string sTypeRoom;
+		switch (actualRoom->eRoom)
+		{
+		case typeRoom::START:
+			sTypeRoom = "Start";
+			break;
+		case typeRoom::END:
+			sTypeRoom = "End";
+			break;
+		case typeRoom::MASTER:
+			sTypeRoom = "Master";
+			break;
+		case typeRoom::PUPPET:
+			sTypeRoom = "Puppet";
+			break;
+		}
+
+		std::cout << "\n\n";
+
+		std::cout << "SALA ID: " << actualRoom->id << std::endl;
+		std::cout << "SALA TYPE: " << sTypeRoom << std::endl;
+
+		//RUBRICA 3.C
+		// Si la sala final es END, hacemos BREAK del framerate.
+		if (actualRoom->eRoom == typeRoom::END)
+		{
+			break;
+		}
+		else
+		{
+			system("cls");
+		}
+
 	}
+
+
+	// Preguntamos al jugador si quiere volver a jugar.
+	int option;
+
+	do
+	{
+		std::cout << "\n\nFELICIDADES! Has llegado al final de la dungeon." << std::endl;
+		std::cout << "Volver a jugar?" << std::endl;
+		std::cout << "1- SI" << std::endl;
+		std::cout << "2- NO" << std::endl;
+		std::cout << "\nRespuesta: " << std::endl;
+		std::cin >> option;
+	} while (option >=3 || option <= 0);
+
+	if (option == 1)
+	{
+		control = true;
+	}
+	else
+	{
+		control = false;
+	}
+
 }
 
 void SeekAndDestroy(Level &level)
@@ -719,13 +785,22 @@ int main()
 
 	//Animation();
 
-	if (!Init(level)) {
-		GameLoop(level);
+	bool control = true;
 
-		return 0;
-	}
+	do
+	{
+		if (!Init(level)) 
+		{
+			GameLoop(level, control);
+			SeekAndDestroy(level);
 
+		}
+	} while (control);
+
+	std::cout << "Gracias por jugar!" << std::endl;
+	system("pause");
+	system("cls");
 	
-	SeekAndDestroy(level);
+	
 	return 0;
 }

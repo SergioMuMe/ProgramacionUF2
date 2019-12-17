@@ -1,6 +1,7 @@
 #include <vector>
 #include "List.h"
 
+//1.d Utilización de constantes para parametrizar
 #define MAX_ROOMS 7
 #define MIN_ROOMS 5
 #define MAX_SIZE 30
@@ -18,7 +19,8 @@
 #define PLAYER_CHAR '$'
 #define ENEMY_CHAR '@'
 
-
+//1.a Diseño correcto de las estructuras de datos
+//1.b Código separado en al menos dos ficheros
 
 /*
 Start = Sala inicial.

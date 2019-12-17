@@ -175,6 +175,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 		// Vinculamos la sala anterior con la creada por la nextDoor.... 
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
+		//2.g La sala de finalización no tiene enemigos
 		// Set de funciones para crear una sala SIN enemigos
 		SetTilesRoom(level, sala.sizeRoom);
 
@@ -250,7 +251,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 	}
 }
 
-
+//2.a El nivel genera el mapa segun la fase 1 del enunciado
 //TODO: Buscar y sustituir en todos lados, var=>sValues;
 Level InitMap(GameVar var)
 {
@@ -274,7 +275,8 @@ Level InitMap(GameVar var)
 	{
 		level.aPuppets.emplace_back(rand() % var.maxPuppetLength + var.minPuppetLength);
 	}
- 	
+ 	//2.e Existe sólo una sala etiquetada como sala de inicio
+	//2.f Existe sólo una sala de finalización
 	// Generamos el Golden Path: START -> N salas MASTER -> END
 	for (size_t i = 0; i < level.nRooms; i++)
 	{
@@ -322,7 +324,7 @@ Level InitMap(GameVar var)
 
 		level.liRooms.Add(firstRoom);
 
-
+		//2.b El nivel puede generar varias ramificaciones por sala
 		do
 		{
 			// Inicializamos a 0 las puertas ocupadas.
@@ -483,7 +485,7 @@ void menu2()
 	std::cout << "\n\n" << std::endl;
 	std::cout << "0. Salir" << std::endl;
 }
-
+//2.c El nivel se printa por pantalla de forma "entendible" para comprobar que se ha generado bien
 bool choose2(Level sLevel)
 {
 	menu2();
@@ -582,7 +584,7 @@ void InitPlayerPos(Character &player, Room* &actualRoom)
 	player.y = actualRoom->sizeRoom / 2;
 }
 
-void gameLoop(Level &level) 
+void GameLoop(Level &level) 
 {
 	/* VARIABLES FRAMERATE */
 	clock_t timer = 0;
@@ -698,7 +700,7 @@ void gameLoop(Level &level)
 	}
 }
 
-void seekAndDestroy(Level &level)
+void SeekAndDestroy(Level &level)
 {
 	for (size_t i = 0; i < level.liRooms.GetLength(); i++)
 	{
@@ -707,6 +709,8 @@ void seekAndDestroy(Level &level)
 	level.liRooms.Clear();
 }
 
+
+//1.c Main estructurado en al menos las tres funciones indicadas (Init() GameLoop() SeekAndDestroy())
 int main()
 {
 	Level level;
@@ -716,12 +720,12 @@ int main()
 	//Animation();
 
 	if (!Init(level)) {
-		/*gameLoop(level);
+		GameLoop(level);
 
-		return 0;*/
+		return 0;
 	}
 
 	
-	seekAndDestroy(level);
+	SeekAndDestroy(level);
 	return 0;
 }

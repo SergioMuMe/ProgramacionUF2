@@ -58,6 +58,8 @@ struct Room
 
 	//Tamaño de la sala, al ser cuadrada guardamos un único valor.
 	int sizeRoom;
+	//TO DO: Añadir a la creacion de salas
+	int id;
 };
 
 

@@ -3,6 +3,7 @@
 #include <thread>
 #include <array>
 #include <conio.h>
+#include <string>
 #include "Elements.h"
 #include "List.h"
 
@@ -285,6 +286,51 @@ void menu()
 	std::cout << "0. Salir" << std::endl;
 }
 
+void chose2(Level sLevel)
+{
+	menu2();
+	int choice2;
+	std::cin >> choice2;
+
+	switch (choice2)
+	{
+	case 1:
+		//Mostrar los datos del nivel
+		for (size_t i = 0; i < sLevel.liRooms.GetLength() ; i++)
+		{
+			std::string doorData[4];
+			//Guardamos los datos de la habitación en una variable temporal para no iterar por cada dato
+			Room tempRoom = sLevel.liRooms.GetItem(i);
+			std::cout << " *** DATOS SALA " << i + 1 << " *** " << std::endl;
+			std::cout << "Id de la sala: " << tempRoom.id << std::endl;
+			std::cout << "Tamaño: " << tempRoom.sizeRoom << " casillas." << std::endl;
+			for (size_t j = 0; j < 4; j++)
+			{
+				if (tempRoom.aDoors[j] == nullptr) 
+				{
+					doorData[j] = "No existe";
+				}
+				else 
+				{
+					doorData[j] = std::to_string(tempRoom.aDoors[j]->id);
+				}
+			}
+			std::cout << "Puerta norte: " << doorData[0] << std::endl;
+			std::cout << "Puerta sur: " << doorData[1] << std::endl;
+			std::cout << "Puerta este: " << doorData[2] << std::endl;
+			std::cout << "Puerta oeste: " << doorData[3] << std::endl;
+			std::cout << "Cantidad enemigos: " << tempRoom.liEnemies.GetLength() << std::endl;
+
+		}
+		break;
+	case 2:
+		//Jugar el nivel(seguir)
+		break;
+	case 0:
+		return;
+	}
+}
+
 void menu2()
 {
 	//2.C De la rúbrica HACER QUE FUNCIONE
@@ -301,7 +347,7 @@ void menu2()
 bool Init()
 {
 	menu();
-	int choice = 0;
+	int choice;
 	std::cin >> choice;
 	if(choice == 0)
 	{

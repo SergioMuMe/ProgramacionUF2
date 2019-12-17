@@ -85,3 +85,6 @@ SergioPrivado/SergioPrivado.sln
 SergioPrivado/SergioPrivado/SergioPrivado.vcxproj
 SergioPrivado/SergioPrivado/SergioPrivado.vcxproj.filters
 SergioPrivado/SergioPrivado/SergioPrivado.vcxproj.user
+SergioPrivado/Debug/SergioPrivado.exe
+SergioPrivado/Debug/SergioPrivado.pdb
+SergioPrivado/SergioPrivado/Debug/vc141.pdb

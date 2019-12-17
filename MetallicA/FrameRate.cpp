@@ -383,6 +383,10 @@ Level InitMap(GameVar var)
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, firstRoom.sizeRoom);
 
+		CreateEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), var, firstRoom.sizeRoom);
+
+		SetTilesEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), firstRoom.sizeRoom);
+
 		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetItem(masterIndex);
 
 		/* ------------------------- */
@@ -424,6 +428,10 @@ Level InitMap(GameVar var)
 		SetTilesRoom(level, endRoom.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, endRoom.sizeRoom);
+
+		CreateEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), var, endRoom.sizeRoom);
+
+		SetTilesEnemies(level.liRooms.GetItem(level.liRooms.GetLength()), endRoom.sizeRoom);
 
 	}
 

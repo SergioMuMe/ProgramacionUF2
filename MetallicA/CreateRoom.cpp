@@ -18,7 +18,11 @@ void SetTilesRoom(Room &sala, int size ) {
 
 void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size) {
 	
+
+	// TO DO: Posible modificacion, pasar a funcion.
 	size--;
+
+	// frontDoor: Esta variable guarda como has llegado aqui, para luego crear la puerta de retorno.
 
 	switch (frontDoor)
 	{
@@ -57,6 +61,8 @@ void SetTilesDoor(Room &sala, int frontDoor, int size) {
 
 	size--;
 
+	// frontDoor: Esta variable guarda como has llegado aqui, para luego crear la puerta de retorno.
+
 	switch (frontDoor)
 	{
 	case cardinalDoor::NORTH:
@@ -75,19 +81,31 @@ void SetTilesDoor(Room &sala, int frontDoor, int size) {
 }
 
 void CreateEnemies(Room &sala, GameVar var, int size) {
+	
+	// Número random de enemigos que tendrá la sala
 	int enemiesNum;
 	enemiesNum = var.minEnemy + (rand() % (var.maxEnemy - var.minEnemy + 1));
 
+
+	// Iteramos por cada enemigo
 	for (int i = 0; i < enemiesNum; i++)
 	{
+		// Creamos un enemigo
 		Character enemy;
 
+		// Definimos su posicion inicial: 
+		/*
+		- Puede superponerse a una puerta.
+		- Puede superponerse a otro enemigo.
+		- No puede aparecer a 1/4 de distancia del size del jugador. (Calculamos por pitagoras la diagonal de respwan)
+		*/
 		do
 		{
 			enemy.x = rand() % (size);
 			enemy.y = rand() % (size);
 		} while (sqrt(pow(enemy.x-(size/2),2) + pow(enemy.y-(size/2),2)) < size/4 );
 
+		// Añadimos enemigo creado.
 		sala.liEnemies.Add(enemy);
 	}
 
@@ -95,6 +113,7 @@ void CreateEnemies(Room &sala, GameVar var, int size) {
 
 void SetTilesEnemies(Room &sala, int size) {
 
+	// Iteramos por cada enemigo y lo pintamos sobre la sala.
 	for (int i = 0; i<sala.liEnemies.GetLength(); i++)
 	{
 		sala.roomMap[sala.liEnemies.GetItem(i).x][sala.liEnemies.GetItem(i).y] = 'o';

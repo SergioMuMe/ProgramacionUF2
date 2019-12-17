@@ -100,20 +100,30 @@ GameVar SetGameVar(int choice)
 void InitRoom(Level &level, GameVar var, typeRoom type)
 {
 
+	// Declaramos e iniciamos la asignación de valores a la sala
 	Room sala;
 	sala.eRoom = type;
 	sala.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
-	int backDoor;
 
+	// La puerta para volver a la sala anterior. La usaremos para definir una de las posiciones en aDoors.
+	int backDoor;
+	
+	// Definimos el ID de la sala. Los IDs corresponden al tamaño de la lista (actualmente 0 ya que aun no se ha añadido) + 1
+	sala.id = level.liRooms.GetLength() + 1;
+	
+	// Añadimos la sala
 	level.liRooms.Add(sala);
+	
 
 	switch (type)
 	{
 	case START:
-		int resta;
 
+		// Seleccionamos la puerta de salida para la sala.
 		nextDoor = rand() % 4;
 
+
+		// Set de funciones para crear una sala con enemigos
 		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, sala.sizeRoom);
@@ -126,6 +136,16 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 	case END:
 
+		/*
+		aDoor[4]: Las puertas cardinales estan consecutivas según su oposición:
+		[0] Norte
+		[1] Sur
+
+		[2] Este
+		[3] Oeste
+
+		Por lo tanto. Si la puerta nextDoor es PAR. Su contrario (backDoor) será la siguiente posición en la array aDoors.
+		*/
 		if (nextDoor % 2 == 0)
 		{
 			backDoor = nextDoor + 1;
@@ -135,10 +155,13 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 			backDoor = nextDoor - 1;
 		}
 
+		// Vinculamos la sala actual con la anterior por la backDoor
 		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
 
+		// Vinculamos la sala anterior con la creada por la nextDoor.... 
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
+		// Set de funciones para crear una sala SIN enemigos
 		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), backDoor, sala.sizeRoom);
@@ -147,6 +170,7 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 
 	case MASTER:
 
+		// Seleccionamos random la puerta que vamos a usar para avanzar a la siguiente sala.
 		if (nextDoor % 2 == 0)
 		{
 			backDoor = nextDoor + 1;
@@ -156,15 +180,20 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 			backDoor = nextDoor - 1;
 		}
 
+		// Vinculamos la sala actual con la anterior por la backDoor
 		level.liRooms.GetItem(level.liRooms.GetLength()).aDoors[backDoor] = &level.liRooms.GetBack()->data;
 
+		// Vinculamos la sala anterior con la creada por la nextDoor.... 
 		level.liRooms.GetBack()->data.aDoors[nextDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
-
+		
+		// ...Si la sala anterior es la START, ya viene desde allí inicializada. Sino, la generamos a continuación para la siguiente iteración de sala MASTER/END.
 		do
 		{
 			nextDoor = rand() % 4;
 		} while (nextDoor == backDoor);
 
+
+		// Set de funciones para crear una sala con enemigos
 		SetTilesRoom(level.liRooms.GetItem(level.liRooms.GetLength()), sala.sizeRoom);
 
 		SetTilesDoor(level.liRooms.GetItem(level.liRooms.GetLength()), nextDoor, backDoor, sala.sizeRoom);
@@ -213,20 +242,27 @@ void InitRoom(Level &level, GameVar var, typeRoom type)
 //TODO: Buscar y sustituir en todos lados, var=>sValues;
 Level InitMap(GameVar var)
 {
+
+	/* ---------------  */
+	/*   GOLDEN PATH    */
+	/* ---------------  */
+
 	Level level;
-	level.aPuppets.reserve (var.maxPuppets);
+	
+	// Cantidad de ramificaciones que habrá.
 	int	puppets = rand() % var.maxPuppets + var.minPuppets;
+
+	// Reserva los PUPPETS que vamos a tener.
+	level.aPuppets.reserve (puppets);
+	
 	level.nRooms = rand() % var.maxRooms + var.minRooms;
 
+	// Definimos la cantidad de salas por cada una de las ramificaciones.
 	for (size_t i = 0; i < puppets; i++)
 	{
 		level.aPuppets.emplace_back(rand() % var.maxPuppetLength + var.minPuppetLength);
-		//TODO PREGUNTAR: Preguntar Jose PQ NO FUNKAAAA!!!!
-		//level.aPuppets[i] = rand() % var.maxPuppetLength + var.minPuppetLength;
 	}
- 
-	
-	
+ 	
 	// Generamos el Golden Path: START -> N salas MASTER -> END
 	for (size_t i = 0; i < level.nRooms; i++)
 	{
@@ -243,74 +279,85 @@ Level InitMap(GameVar var)
 		
 	}	
 
+	/* ---------  */
+	/*   PUPPETS  */
+	/* ---------  */
 
 	// Generamos la primera sala de cada una de las ramificaciones. typeRoom::PUPPET
+	// Al tener el size, iteramos.
 	for (size_t i = 0; i < level.aPuppets.size(); i++)
 	{
 		// closedDoors: Puertas ocupadas. Son aquellas que existen y llevan a algún sitio.
 		int closedDoors = 0;
 		
 		int masterIndex;
+		
+		// Puerta por la que desde el MASTER pasamos al PUPPET
 		int linkDoor;
+
+		/* --------------------- */
+		/* PUPPET: PRIMERA SALA */
+		/* --------------------- */
 
 		Room firstRoom;
 
 		int backDoor;
 
+		// Creamos la sala
 		firstRoom.eRoom = typeRoom::PUPPET;
 
 		firstRoom.sizeRoom = var.minSize + (rand() % (var.maxSize - var.minSize + 1));
 
 		level.liRooms.Add(firstRoom);
 
+
 		do
 		{
-
+			// Inicializamos a 0 las puertas ocupadas.
 			closedDoors = 0;
+			
 			// Obtenemos una sala MASTER random. Excluimos la END al restar -1 a nRooms. Excluimos la START al sumar +1 al resultado. 
-
 			masterIndex = (rand() % (level.nRooms - 1)) + 1;
 
 			// Iteramos por cada posible puerta: Norte, Sur, Este, Oeste
 			for (size_t i = 0; i < 4; i++)
 			{
-				// Revisamos: Si la puerta es igual a NULL, podemos colocar una puerta.
+				// Revisamos: Si la puerta es igual a NULL, sabemos que hay una puerta libre.
 				if (level.liRooms.GetItem(masterIndex).aDoors[i] == nullptr)
 				{
-					// ALERTA: Generamos la puerta aleatoria? Ya sabemos que la [i] está disponible.
+					// Como sabemos que hay un hueco, lanzamos una tirada aleatoria para que busque en todos los posibles huecos
+					// No tiene porque ser la que se ha comprovado en el if anterior...
 					do
 					{
 						linkDoor = rand() % 4;
 					} while (level.liRooms.GetItem(masterIndex).aDoors[linkDoor] != nullptr);
 
+					//...Una vez escogida la puerta...
+
+					// Pintamos la puerta
 					SetTilesDoor(level.liRooms.GetItem(masterIndex), linkDoor, level.liRooms.GetItem(masterIndex).sizeRoom);
 
+					// Y la vinculamos a la posicion de memoria de la sala que corresponda
 					level.liRooms.GetItem(masterIndex).aDoors[linkDoor] = &level.liRooms.GetItem(level.liRooms.GetLength());
 
+					//Guardamos la posicion linkDoor para usar en siguientes iteraciones de otros PUPPETS.
 					nextDoor = linkDoor;
 					i = 4;//break
 				}
 				else
 				{
+					// Si todas las puertas estan ocupadas, volvemos a buscar un master random
 					closedDoors++;
 				}
-
-
-				/*
-				
-				*/
 
 
 			}
 		} while (closedDoors >= 4);
 
-		Room masterRoom = level.liRooms.GetItem(masterIndex);
 
-		//Crear una primera sala a pelo
-		//Vincularlo a master
+		// Una vez modificado el master, pasamos a trabajar sobre el PUPPET....
 
-
-
+		// 
 		if (nextDoor % 2 == 0)
 		{
 			backDoor = nextDoor + 1;
@@ -326,12 +373,20 @@ Level InitMap(GameVar var)
 
 		firstRoom.aDoors[backDoor] = &level.liRooms.GetItem(masterIndex);
 
-		
+		/* ------------------------- */
+		/* PUPPET: SALAS INTERMEDIAS */
+		/* ------------------------- */
 
+
+		// Inicializamos j=1 ya que j=0 es la sala PUPPET INICIAL ya creada. 
 		for (size_t j = 1; j < level.aPuppets[i]; j++)
 		{
 			InitRoom(level, var, typeRoom::PUPPET);
 		}
+
+		/* ----------------------------------- */
+		/* PUPPET: SALA FINAL DE RAMIFICACION  */
+		/* ----------------------------------- */
 
 		Room endRoom;
 
@@ -356,9 +411,7 @@ Level InitMap(GameVar var)
 
 		SetTilesRoom(endRoom, endRoom.sizeRoom);
 
-		SetTilesDoor(endRoom, backDoor, endRoom.sizeRoom);
-
-		
+		SetTilesDoor(endRoom, backDoor, endRoom.sizeRoom);	
 
 	}
 
@@ -393,7 +446,19 @@ void menu()
 	std::cout << "0. Salir" << std::endl;
 }
 
-void chose2(Level sLevel)
+void menu2()
+{
+	//2.C De la rúbrica HACER QUE FUNCIONE
+	std::cout << "MENU" << std::endl;
+	std::cout << "0:---------------:0" << std::endl;
+	std::cout << "1. Mostrar datos" << std::endl;
+	std::cout << "2. Jugar nivel" << std::endl;
+	std::cout << "0:---------------:0" << std::endl;
+	std::cout << "\n\n" << std::endl;
+	std::cout << "0. Salir" << std::endl;
+}
+
+bool choose2(Level sLevel)
 {
 	menu2();
 	int choice2;
@@ -406,10 +471,12 @@ void chose2(Level sLevel)
 		for (size_t i = 0; i < sLevel.liRooms.GetLength() ; i++)
 		{
 			std::string doorData[4];
+			
 			//Guardamos los datos de la habitación en una variable temporal para no iterar por cada dato
 			Room tempRoom = sLevel.liRooms.GetItem(i);
-			std::cout << " *** DATOS SALA " << i + 1 << " *** " << std::endl;
-			std::cout << "Id de la sala: " << tempRoom.id << std::endl;
+			
+			std::cout << "\n::::--------------------------------:::: " << std::endl;
+			std::cout << " *** DATOS SALA [id." << tempRoom.id << "] *** " << std::endl;
 			std::cout << "Tamaño: " << tempRoom.sizeRoom << " casillas." << std::endl;
 			for (size_t j = 0; j < 4; j++)
 			{
@@ -429,39 +496,39 @@ void chose2(Level sLevel)
 			std::cout << "Cantidad enemigos: " << tempRoom.liEnemies.GetLength() << std::endl;
 
 		}
-		break;
+		std::cout << "\n\n\n";
+		system("pause");
+		return false;
 	case 2:
 		//Jugar el nivel(seguir)
-		break;
-	case 0:
-		return;
-	}
-}
-
-void menu2()
-{
-	//2.C De la rúbrica HACER QUE FUNCIONE
-	std::cout << "MENU" << std::endl;
-	std::cout << "0:---------------:0" << std::endl;
-	std::cout << "1. Mostrar datos" << std::endl;
-	std::cout << "2. Jugar nivel" << std::endl;
-	std::cout << "0:---------------:0" << std::endl;
-	std::cout << "\n\n" << std::endl;
-	std::cout << "0. Salir" << std::endl;
-}
-
-
-bool Init()
-{
-	menu();
-	int choice;
-	std::cin >> choice;
-	if(choice == 0)
-	{
-		//cerrar programa
 		return false;
+	case 0:
+		//salir scope
+		return true;
 	}
-	InitMap(SetGameVar(choice));
+}
+
+bool Init(Level &level)
+{
+	int choice;
+	
+	do
+	{
+		menu();
+		
+		std::cin >> choice;
+		if (choice == 0)
+		{
+			//cerrar programa
+			return false;
+		}
+
+		level = InitMap(SetGameVar(choice));
+		
+	} while (choose2(level));
+
+	// LLAMAR FUNCION PARA EL JUEGO argumento: level
+		
 }
 
 void gameLoop() 
@@ -559,8 +626,10 @@ void destroy()
 
 int main()
 {
+	Level level;
+
 	srand(time(NULL));
-	if (!Init()) {
+	if (!Init(level)) {
 		return 0;
 	}
 	gameLoop();

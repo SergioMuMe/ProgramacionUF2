@@ -610,6 +610,14 @@ void GameLoop(Level &level, bool &control)
 		std::chrono::high_resolution_clock::time_point beginFrame = std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		int key = 0;
+
+
+		//AQUI IRIA EL MOVIMIENTO DE LOS ENEMIGOS
+
+
+		SetTilesRoom(*actualRoom, actualRoom->sizeRoom);
+		SetTilesDoor(*actualRoom, actualRoom->sizeRoom);
+		SetTilesEnemies(*actualRoom, actualRoom->sizeRoom);
 		
 		if (_kbhit()) {
 			switch ((key = _getch())) {
@@ -661,6 +669,7 @@ void GameLoop(Level &level, bool &control)
 			}
 		}
 		std::cout << "\n\n\n";
+
 		drawMap(*actualRoom, player);
 
 		// PASO 1 - VERIFICAR SI HA TOCADO UNA PUERTA

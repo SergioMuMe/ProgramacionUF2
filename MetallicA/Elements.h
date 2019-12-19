@@ -105,12 +105,17 @@ struct GameVar
 // Pone todas las baldosas del suelo dada una sala y su tamaño.
 void SetTilesRoom(Level &level, int size);
 
+//Sobrecarga para repintar el suelo del mapa.
+void SetTilesRoom(Room &room, int size);
+
 // Pone todas las puertas dada una sala: Cuando la sala tiene mñs de 1 puerta.
 void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size);
 
 // Pone todas las puertas dada una sala: Cuando la sala tiene una ñnica puerta.
 void SetTilesDoor(Room &sala, int frontDoor, int size);
 
+//Sobrecarga para pintar todas las puertas si las tiene.
+void SetTilesDoor(Room &sala, int size);
 
 // Crea las posiciones de los enemigos de la sala: La distancia entre el player y el enemigo debe ser mayor o igual a 1/4 del size de la sala. Dado el azar, los enemigos pueden superponerse a si mismos o a puertas.
 void CreateEnemies(Room &sala, GameVar var, int size);

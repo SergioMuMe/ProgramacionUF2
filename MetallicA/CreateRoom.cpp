@@ -17,6 +17,16 @@ void SetTilesRoom(Level &level, int size ) {
 
 }
 
+void SetTilesRoom(Room &room, int size) {
+	for (size_t i = 0; i < size; i++)
+	{
+		for (size_t j = 0; j < size; j++)
+		{
+			room.roomMap[i][j] = '.';
+		}
+	}
+}
+
 void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size) {
 	
 
@@ -55,6 +65,33 @@ void SetTilesDoor(Room &sala, int frontDoor, int backDoor, int size) {
 	case cardinalDoor::WEST:
 		sala.roomMap[size / 2][0] = '#';
 		break;
+	}
+}
+
+void SetTilesDoor(Room &sala, int size) {
+
+	size--;
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		if (sala.aDoors[i] != nullptr)
+		{
+			switch (i)
+			{
+			case cardinalDoor::NORTH:
+				sala.roomMap[0][size / 2] = '#';
+				break;
+			case cardinalDoor::SOUTH:
+				sala.roomMap[size][size / 2] = '#';
+				break;
+			case cardinalDoor::EAST:
+				sala.roomMap[size / 2][size] = '#';
+				break;
+			case cardinalDoor::WEST:
+				sala.roomMap[size / 2][0] = '#';
+				break;
+			}
+		}
 	}
 }
 

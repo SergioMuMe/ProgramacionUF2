@@ -140,18 +140,37 @@ public:
 
 	void Remove(int position)
 	{
+		std::cout << "length: " << length << std::endl;
+		std::cout << "position: " << position << std::endl;
+
+		if (position == 0) {
+			std::cout << "ERROR, se intenta eliminar un elemento con indice 0" << std::endl;
+			system("pause");
+		}
+
 
 		if (position >= length)
 		{
 			actualPtr = endPtr;
-			endPtr = endPtr->backPtr;
+			if (endPtr->backPtr != nullptr)
+			{
+				endPtr = endPtr->backPtr;
+			}
 			endPtr->nextPtr = nullptr;
+
+			if (actualPtr == startPtr)
+			{
+				startPtr = nullptr;
+			}
 			delete(actualPtr);
 		}
-		else if (position <= 0)
+		else if (position <= 1)
 		{
 			actualPtr = startPtr;
-			startPtr = startPtr->nextPtr;
+			if (startPtr->nextPtr != nullptr)
+			{
+				startPtr = startPtr->nextPtr;
+			}
 			startPtr->backPtr = nullptr;
 			delete(actualPtr);
 		}

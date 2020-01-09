@@ -67,7 +67,7 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 		switch (key)
 		{
 		case KEY_UP:
-			std::cout << std::endl << "Up" << std::endl;
+			//std::cout << std::endl << "Up" << std::endl;
 
 			if (player.x > 0)
 			{
@@ -81,7 +81,7 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 
 
 		case KEY_DOWN:
-			std::cout << std::endl << "Down" << std::endl;
+			//std::cout << std::endl << "Down" << std::endl;
 			if (player.x < max)
 			{
 				return player.x++;
@@ -93,7 +93,7 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 			}
 
 		case KEY_LEFT:
-			std::cout << std::endl << "Left" << std::endl;
+			//std::cout << std::endl << "Left" << std::endl;
 			if (player.y > 0)
 			{
 				return player.y--;
@@ -105,7 +105,7 @@ int PlayerMovement(int num, Room sala, int key, Character &player)
 			}
 
 		case KEY_RIGHT:
-			std::cout << std::endl << "Right" << std::endl;
+			//std::cout << std::endl << "Right" << std::endl;
 			if (player.y < max)
 			{
 				return player.y++;

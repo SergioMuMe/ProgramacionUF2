@@ -567,7 +567,7 @@ bool Init(Level &level)
 		if (choice == 0)
 		{
 			//cerrar programa
-			return false;
+			return true;
 		}
 
 		level = InitMap(SetGameVar(choice));
@@ -612,7 +612,29 @@ void GameLoop(Level &level, bool &control)
 		int key = 0;
 
 
-		//AQUI IRIA EL MOVIMIENTO DE LOS ENEMIGOS
+		//AQUI VA EL MOVIMIENTO DE LOS ENEMIGOS
+		for (size_t i = 0; i <= actualRoom->liEnemies.GetLength(); i++)
+		{
+			//SE MUEVEN CADA 5 FRAMES
+			if (frames % 5 == 0 && actualRoom->liEnemies.GetStart() != nullptr)
+			{
+				PathFinding(actualRoom->liEnemies.GetItem(i), player);
+
+				//CUANDO UN ENEMIGO TOCA AL PERSONAJE
+				if (actualRoom->liEnemies.GetItem(i).x == player.x && actualRoom->liEnemies.GetItem(i).y == player.y)
+				{
+					player.hp--;
+					actualRoom->liEnemies.Remove(i);
+					i--;
+				}
+			}
+		}
+
+		if (player.hp <= 0)
+		{
+			//GAME OVER
+			break;
+		}
 
 
 		SetTilesRoom(*actualRoom, actualRoom->sizeRoom);
@@ -639,7 +661,7 @@ void GameLoop(Level &level, bool &control)
 				break;
 
 			default:
-				std::cout << std::endl << key << "null" << std::endl; // not arrow
+				//std::cout << std::endl << key << "null" << std::endl; // not arrow
 				break;
 			}
 
@@ -668,7 +690,7 @@ void GameLoop(Level &level, bool &control)
 				InitPlayerPos(player, actualRoom);
 			}
 		}
-		std::cout << "\n\n\n";
+		//std::cout << "\n\n\n";
 
 		drawMap(*actualRoom, player);
 
@@ -733,6 +755,7 @@ void GameLoop(Level &level, bool &control)
 		}
 
 		std::cout << "\n\n";
+		std::cout << "HP: " << player.hp << "\n\n";
 
 		std::cout << "SALA ID: " << actualRoom->id << std::endl;
 		std::cout << "SALA TYPE: " << sTypeRoom << std::endl;
@@ -756,7 +779,14 @@ void GameLoop(Level &level, bool &control)
 
 	do
 	{
-		std::cout << "\n\nFELICIDADES! Has llegado al final de la dungeon." << std::endl;
+		if (player.hp <= 0)
+		{
+			std::cout << "\n\HAS MUERTO!." << std::endl;
+		}
+		else {
+			std::cout << "\n\nFELICIDADES! Has llegado al final de la dungeon." << std::endl;
+		}
+
 		std::cout << "Volver a jugar?" << std::endl;
 		std::cout << "1- SI" << std::endl;
 		std::cout << "2- NO" << std::endl;
@@ -788,7 +818,7 @@ void SeekAndDestroy(Level &level)
 //1.c Main estructurado en al menos las tres funciones indicadas (Init() GameLoop() SeekAndDestroy())
 int main()
 {
-	Level level;
+	
 
 	srand(time(NULL));
 
@@ -798,11 +828,17 @@ int main()
 
 	do
 	{
+		Level level;
+
 		if (!Init(level)) 
 		{
 			GameLoop(level, control);
 			SeekAndDestroy(level);
 
+		}
+		else
+		{
+			control = false;
 		}
 	} while (control);
 
